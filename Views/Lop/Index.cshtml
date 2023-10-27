@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Danh sách lớp";
+}
+@model IEnumerable<Lop>
+<div class="ms-2 mx-2">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Lớp</th>
+                <th>Giáo viên chủ nhiệm</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td><a asp-controller="HocSinh" asp-action="Index" asp-route-LopID="@s.LopID">@s.LopID</a></td>
+                    <td>@s.GVCN</td>
+                    <td><a asp-action="Edit" asp-route-id="@s.LopID">Edit</a> | <a asp-action="Delete" asp-route-id="@s. LearnerID">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create" class="btn btn-primary">Thêm lớp học</a>
+</div>

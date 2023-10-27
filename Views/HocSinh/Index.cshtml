@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<HocSinh>
+@{
+    ViewData["Title"] = "Học sinh lớp " + ViewBag.LopID;
+}
+<div class="ms-2 mx-2">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Stt</th>
+                <th>Họ</th>
+                <th>Tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Lớp</th>
+                <th>Ghi chú</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.HocSinhID</td>
+                    <td>@s.Ho</td>
+                    <td>@s.Ten</td>
+                    @{
+                        var GioiTinh = "";
+                    }
+                    @if (s.Nu) { GioiTinh = "Nữ"; } else { GioiTinh = "Nam"; }
+                    <td>@GioiTinh</td>
+                    <td>@s.NgaySinh</td>
+                    <td>@s.LopID</td>
+                    <td>@s.GhiChu</td>
+                    <td><a asp-action="Edit" asp-route-id="@s.LopID">Edit</a> | <a asp-action="Delete" asp-route-id="@s. LearnerID">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create" class="btn btn-primary">Thêm học sinh</a>
+</div>

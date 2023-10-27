@@ -16,12 +16,24 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\code\btl-ltweb
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/code/btl-ltweb/Views/HocSinh/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9jU2luaFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/code/btl-ltweb/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/code/btl-ltweb/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/code/btl-ltweb/Views/Lop/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9wXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/code/btl-ltweb/Views/Lop/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9wXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/code/btl-ltweb/Views/Shared/CollapsingNav.cshtml]
