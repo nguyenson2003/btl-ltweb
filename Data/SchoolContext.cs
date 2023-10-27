@@ -25,6 +25,8 @@ namespace btl_tkweb.Data
             modelBuilder.Entity<Account>().ToTable(nameof(Account));
             modelBuilder.Entity<GiaoVien>().ToTable(nameof(GiaoVien));
             modelBuilder.Entity<ChiTietGiangDay>().ToTable(nameof(ChiTietGiangDay));
+
+
         }
     }
 }

@@ -2047,19 +2047,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\hp\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\code\\btl-ltweb\\btl-ltweb.csproj",
+      "projectUniqueName": "F:\\sondz\\btl-ltweb\\btl-ltweb.csproj",
       "projectName": "btl-ltweb",
-      "projectPath": "D:\\code\\btl-ltweb\\btl-ltweb.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\code\\btl-ltweb\\obj\\",
+      "projectPath": "F:\\sondz\\btl-ltweb\\btl-ltweb.csproj",
+      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+      "outputPath": "F:\\sondz\\btl-ltweb\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
