@@ -15,7 +15,8 @@ namespace btl_tkweb.Data
                     return;
                 }
                 var lop = new Lop[] { new Lop { LopID = "10A1", GVCN = "Nguyen Thi A" } };
-                foreach(var x in lop){
+                foreach (var x in lop)
+                {
                     context.Lop.Add(x);
                 }
                 var hocsinh = new HocSinh[] { new HocSinh { Ho = "Nguyen Văn", Ten = "B", NgaySinh = DateTime.Parse("2003-01-01"), LopID = "10A1", Nu = false} };

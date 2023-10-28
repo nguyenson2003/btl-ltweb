@@ -13,7 +13,6 @@ namespace btl_tkweb.Data
         public virtual DbSet<HocSinh> HocSinh { get; set;}
         public virtual DbSet<MonHoc> MonHoc { get; set;}
         public virtual DbSet<DiemSo> DiemSo { get; set; }
-        public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<GiaoVien> GiaoVien { get; set; }
         public virtual DbSet<ChiTietGiangDay> ChiTietGiangDay { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,7 +21,6 @@ namespace btl_tkweb.Data
             modelBuilder.Entity<HocSinh>().ToTable(nameof(HocSinh));
             modelBuilder.Entity<MonHoc>().ToTable(nameof(MonHoc));
             modelBuilder.Entity<DiemSo>().ToTable(nameof(DiemSo));
-            modelBuilder.Entity<Account>().ToTable(nameof(Account));
             modelBuilder.Entity<GiaoVien>().ToTable(nameof(GiaoVien));
             modelBuilder.Entity<ChiTietGiangDay>().ToTable(nameof(ChiTietGiangDay));
 
