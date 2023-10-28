@@ -20,7 +20,7 @@
                     if (HoVaTen[i] == ' ') continue;
                     user += HoVaTen[i];
                 }
-                user += GiaoVienID + "@web.demo.io";
+                user += GiaoVienID + "@gv.demo.io";
                 return Username;
         } }
         public string Password { get; set; }

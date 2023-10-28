@@ -21,7 +21,7 @@
                 if (HoVaTen[i] == ' ') continue;
                 user += HoVaTen[i];
             }
-            user += HocSinhID + "@web.demo.io";
+            user += HocSinhID + "@hs.demo.io";
             return user;
         } }
         public string Password { get; set; }
