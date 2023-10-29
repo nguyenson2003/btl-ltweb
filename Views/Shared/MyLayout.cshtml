@@ -8,8 +8,9 @@
     <meta name="author" content="" />
     <title>@ViewData["Title"] - Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/css/styles.css" rel="stylesheet" />
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body >
     <main style ="height:100vh;display:flex; flex-direction:column;">
@@ -28,6 +29,7 @@
                             <h1>@ViewData["Title"]</h1>
                         </div>
                         @RenderBody()
+                        @RenderSection("scripts", required: false)
                     </main>
                     <!-- End Main -->
                 </div>
