@@ -14,36 +14,123 @@ namespace btl_tkweb.Controllers
         {
             this.db = db;
         }
-        public IActionResult Index()
+        public IActionResult Index(string LopID)
         {
             var hs = db.HocSinh
-                //.Where(hs => hs.LopID.Equals(LopID))
+                .Where(hs => hs.LopID.Equals(LopID))
                 /*.OrderBy(s => s.Ten).OrderBy(s => s.Ho)*/
-                
                 .ToList();
-            //ViewBag.LopID = LopID;
+            ViewBag.LopID = LopID;
             return View(hs);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string LopID)
         {
-            ViewBag.LopID = new SelectList(db.Lop, "LopID", "LopID");
+            ViewBag.LopID = LopID;
             return View();
 
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Ho, Ten, Nu, NgaySinh, LopID, GhiChu")] HocSinh hs)
+        public IActionResult Create([Bind("Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs,string LopID)
         {
-            if(ModelState.IsValid)
+            ViewBag.LopID = LopID;
+            if (ModelState.IsValid)
             {
-                
                 db.HocSinh.Add(hs);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new {LopID});
             }
-            ViewBag.LopID = new SelectList(db.Lop, "LopID", "LopID");
             return View();
         }
+
+        public IActionResult Edit(int id)
+        {
+            if(id == null || db.HocSinh == null)
+            {
+                return NotFound();
+            }
+            var hs = db.HocSinh.Find(id);
+            if(hs == null)
+            {
+                return NotFound();
+            }
+            ViewBag.LopID = new SelectList(db.Lop, "LopID", "LopID", hs.LopID);
+            return View(hs);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(int id, [Bind("HocSinhID", "Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs)
+        {
+            if(id != hs.HocSinhID)
+            {
+                return NotFound();
+            }
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    db.Update(hs);
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if(!Hsexist(hs.HocSinhID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index", new {hs.LopID});
+            }
+            ViewBag.LopID = new SelectList(db.Lop, "LopID", "LopID", hs.LopID);
+            return View(hs);
+        }
+        private bool Hsexist(int id)
+        {
+            return (db.HocSinh?.Any(e => e.HocSinhID == id)).GetValueOrDefault();
+        }
+
+
+        public IActionResult Delete(int id)
+        {
+            if(id == null || db.HocSinh == null)
+            {
+                return NotFound();
+            }
+            var hs = db.HocSinh.Include(l => l.Lop).Include(e => e.DiemSo).FirstOrDefault(m => m.HocSinhID == id);
+            if(hs == null)
+            {
+                return NotFound();
+            }
+            if(hs.DiemSo.Count() > 0)
+            {
+                return Content("Học sinh này có điểm chưa được xóa!");
+            }
+            return View(hs);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            if(db.HocSinh == null)
+            {
+                return Problem("Khong con hoc sinh");
+            }
+            var hs = db.HocSinh.Find(id);
+            var lopID = hs.LopID;
+           
+            if(hs != null)
+            {
+                db.HocSinh.Remove(hs);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index" ,new {lopID});
+        }
+        
     }
 }

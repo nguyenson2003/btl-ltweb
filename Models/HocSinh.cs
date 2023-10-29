@@ -3,6 +3,7 @@
     public class HocSinh
     {
         public HocSinh() {
+            DiemSo=new HashSet<DiemSo>();
             Password = "demo123456";
         }
         public int HocSinhID { get; set; }

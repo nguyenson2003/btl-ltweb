@@ -6,6 +6,7 @@ namespace btl_tkweb.Models
     {
         public Lop() {
             dshs = new HashSet<HocSinh>();
+            ctgd = new HashSet<ChiTietGiangDay>();
         }
         [Required(AllowEmptyStrings =false,ErrorMessage ="Chưa nhập tên lớp")]
         public string LopID { get; set; }

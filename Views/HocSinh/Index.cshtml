@@ -6,7 +6,7 @@
     ViewData["Title"] = "Học sinh lớp " + ViewBag.LopID;
 }
 <div class="ms-2 mx-2">
-    <table class="table table-striped">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>Stt</th>
@@ -27,17 +27,18 @@
                     <td>@s.Ho</td>
                     <td>@s.Ten</td>
                     @{
+                        
                         var GioiTinh = "";
                     }
                     @if (s.Nu) { GioiTinh = "Nữ"; } else { GioiTinh = "Nam"; }
                     <td>@GioiTinh</td>
-                    <td>@s.NgaySinh</td>
+                    <td>@s.NgaySinh.ToShortDateString()</td>
                     <td>@s.LopID</td>
                     <td>@s.GhiChu</td>
-                    <td><a asp-action="Edit" asp-route-id="@s.LopID">Edit</a> | <a asp-action="Delete" asp-route-id="@s. LearnerID">Delete</a></td>
+                    <td><a asp-action="Edit" asp-route-id="@s.HocSinhID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.HocSinhID">Delete</a></td>
                 </tr>
             }
         </tbody>
     </table>
-    <a asp-action="Create" class="btn btn-primary">Thêm học sinh</a>
+    <a asp-action="Create" asp-route-lopid=@ViewBag.LopID class="btn btn-primary">Thêm học sinh</a>
 </div>
