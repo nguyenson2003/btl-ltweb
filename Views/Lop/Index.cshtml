@@ -5,8 +5,8 @@
     ViewData["Title"] = "Danh sách lớp";
 }
 @model IEnumerable<Lop>
-<div class="ms-2 mx-2">
-    <table class="table table-striped">
+<div class="m-3">
+    @* <table class="table table-striped">
         <thead>
             <tr>
                 <th>Lớp</th>
@@ -24,6 +24,24 @@
                 </tr>
             }
         </tbody>
-    </table>
+    </table> *@
+    <div class="mb-3 row row-cols-1 row-cols-md-3 g-4">
+        @foreach(var s in Model){
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><a class="card-title" asp-controller="HocSinh" asp-action="Index" asp-route-LopID="@s.LopID">@s.LopID</a></h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-body-secondary ">Giáo viên chủ nhiệm: @s.GVCN</h6>
+                        <p class="card-text">Số lượng thành viên: @s.dshs.Count</p>
+                        <a class="card-link" asp-action="Edit" asp-route-id="@s.LopID">Edit</a>
+                        <a class="card-link" asp-action="Delete" asp-route-id="@s.LopID">Delete</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
     <a asp-action="Create" class="btn btn-primary">Thêm lớp học</a>
 </div>

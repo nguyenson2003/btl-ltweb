@@ -1,6 +1,7 @@
 ﻿using btl_tkweb.Data;
 using btl_tkweb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace btl_tkweb.Controllers
 {
@@ -12,7 +13,7 @@ namespace btl_tkweb.Controllers
         }
         public IActionResult Index()
         {   
-            var lop = db.Lop.ToList();
+            var lop = db.Lop.Include(s=>s.dshs).ToList();
             return View(lop);
         }
         [HttpGet]
