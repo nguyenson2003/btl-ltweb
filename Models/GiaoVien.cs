@@ -18,13 +18,14 @@ namespace btl_tkweb.Models
         public string? GhiChu { get; set; }
         public string Username { get { 
                 string user = "";
+                HoVaTen= ""+HoVaTen;
                 for (int i = 0; i < HoVaTen.Length; i++)
                 {
                     if (HoVaTen[i] == ' ') continue;
                     user += HoVaTen[i];
                 }
                 user += GiaoVienID + "@gv.demo.io";
-                return Username;
+                return user;
         } }
         public string Password { get; set; }
         public virtual ICollection<ChiTietGiangDay> ctgd { get; set; }
