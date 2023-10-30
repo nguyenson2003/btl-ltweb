@@ -7,7 +7,7 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <form asp-controller="GiaoVien" asp-action="Edit" asp-route-id="@Model.GiaoVienID"
           method="post" class="mt-3">
-        <input type="hidden" asp-for="HoVaTen" /> <div style="margin-top:7px" class="form-group row">
+        <input type="hidden" asp-for="GiaoVienID" /> <div style="margin-top:7px" class="form-group row">
             <label asp-for="HoVaTen" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
                 <input asp-for="HoVaTen" class="form-control" placeholder="Ho">
