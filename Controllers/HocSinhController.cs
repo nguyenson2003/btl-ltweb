@@ -39,6 +39,7 @@ namespace btl_tkweb.Controllers
             {
                 db.HocSinh.Add(hs);
                 db.SaveChanges();
+                hs.createBangDiem(db);
                 return RedirectToAction("Index",new {LopID});
             }
             return View();
@@ -107,10 +108,6 @@ namespace btl_tkweb.Controllers
             {
                 return NotFound();
             }
-            if(hs.DiemSo.Count() > 0)
-            {
-                return Content("Học sinh này có điểm chưa được xóa!");
-            }
             return View(hs);
         }
 
@@ -123,10 +120,12 @@ namespace btl_tkweb.Controllers
             }
             var hs = db.HocSinh.Find(id);
             var lopID = hs.LopID;
-           
+            
             if(hs != null)
             {
+                hs.deleteBangDiem(db);
                 db.HocSinh.Remove(hs);
+
             }
             db.SaveChanges();
             return RedirectToAction("Index" ,new {lopID});
