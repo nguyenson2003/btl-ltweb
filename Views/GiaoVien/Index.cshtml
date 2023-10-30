@@ -1,56 +1,36 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model IEnumerable<GiaoVien>
 @{
     ViewData["Title"] = "Giáo Viên";
 }
+
+@model IEnumerable<GiaoVien>
+
 <div class="ms-2 mx-2">
+    <div class="m-3">
+        Chọn lớp: <select id="lophoc" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select>
+    </div>
+    <div class="m-3">
+        Chọn môn học: <select id="monhoc" class="custom-select mr-sm-2" asp-items="@ViewBag.MonHoc"></select>
+    </div>
     <div id="content">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Stt</th>
-                    <th>Họ và tên</th>
-                    <th>Giới tính</th>
-                    <th>Ngày sinh</th>
-                    <th>Môn học</th>
-                    <th>Ghi chú</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var s in Model)
-                {
-                    <tr>
-                        <td>@s.GiaoVienID</td>
-                        <td>@s.HoVaTen</td>
-                        @{
-                            var GioiTinh = "";
-                        }
-                        @if (s.Nu) { GioiTinh = "Nữ"; } else { GioiTinh = "Nam"; }
-                        <td>@GioiTinh</td>
-                        <td>@s.NgaySinh</td>
-                        <td>@s.MonHoc.TenMon</td>
-                        <td>@s.GhiChu</td>
-                        <td><a asp-action="Edit" asp-route-id="@s.GiaoVienID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.GiaoVienID">Delete</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @{Html.RenderPartial("Table");}
     </div>
     <a asp-action="Create" class="btn btn-primary">Thêm giáo viên</a>
 </div>
-<li>click me</li>
 @section Scripts{
     <script>
-        $("li").click(createTable);
+        $("select#lophoc, select#monhoc").on('change',createTable);
         function createTable (e) {
-            console.log(1);
+            var lopid = $("select#lophoc").val();
+            var monid = $("select#monhoc").val();
+            console.log(lopid);
             $.ajax({
                 url: '@Url.Action("table","GiaoVien")',
-                data: { MonHocID: 1 },
+                data: { LopID: lopid, MonHocID: monid },
                 success: function (response) {
+                    console.log("test");
                     $("div#content").html(response);
                 }
             },);
