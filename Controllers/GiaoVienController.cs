@@ -125,12 +125,48 @@ namespace btl_tkweb.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHoc.MonHocID);
+            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
             return View(gv);
         }
         private bool Gvexist(int id)
         {
             return (db.GiaoVien?.Any(e => e.GiaoVienID == id)).GetValueOrDefault();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            if (id == null || db.GiaoVien == null)
+            {
+                return NotFound();
+            }
+            var gv = db.GiaoVien.Include(l => l.MonHoc).Include(e => e.ctgd).FirstOrDefault(m => m.GiaoVienID == id);
+            if (gv == null)
+            {
+                return NotFound();
+            }
+            if (gv.ctgd.Count() > 0)
+            {
+                return Content("Giáo viên còn chi tiết chưa xóa!");
+            }
+            return View(gv);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            if (db.GiaoVien == null)
+            {
+                return Problem("Khong con giao vien");
+            }
+            var gv = db.GiaoVien.Find(id);
+            
+
+            if (gv != null)
+            {
+                db.GiaoVien.Remove(gv);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
     }
