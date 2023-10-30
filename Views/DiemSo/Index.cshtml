@@ -11,13 +11,14 @@
             <tr>
                 <th>Điểm ID</th>
                 <th>Môn học</th>
-                <th>Học sinh ID</th>
+                <th>Tên học sinh</th>
                 <th>Điểm hs 1_1</th>
                 <th>Điểm hs 1_2</th>
                 <th>Điểm hs 1_3</th>
                 <th>Điểm hs 2_1</th>
                 <th>Điểm hs 2_2</th>
                 <th>Điểm hs 3</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +26,8 @@
             {
                 <tr>
                     <td>@s.DiemSoID</td>
-                    <td>@s.MonHocID</td>
-                    <td>@s.HocSinhId</td>
+                    <td>@s.MonHoc?.TenMon</td>
+                    <td>@s.HocSinh?.Ho  @s.HocSinh?.Ten</td>
                    
                     <td>@s.DiemHeSo1_1</td>
                     <td>@s.DiemHeSo1_2</td>
@@ -34,7 +35,7 @@
                     <td>@s.DiemHeSo2_1</td>
                     <td>@s.DiemHeSo2_2</td>
                     <td>@s.DiemHeSo3</td>
-                    <td><a asp-action="Edit" asp-route-id="@s.DiemSoID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.DiemSoID">Delete</a></td>
+                    <td><a asp-action="Edit" asp-route-id="@s.DiemSoID">Edit</a></td>
 
 
 

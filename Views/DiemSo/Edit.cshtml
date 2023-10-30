@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Cập nhật bảng điểm";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@model DiemSo
+<div class="ms-2 mx-2">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-controller="DiemSo" asp-action="Edit" asp-route-id="@Model.DiemSoID"
+          method="post" class="mt-3">
+        <input type="hidden" asp-for="DiemSoID" /> 
+        <input type="hidden" asp-for="MonHocID" /> 
+        <input type="hidden" asp-for="HocSinhId" /> 
+        
+
+        
+        
+        <div style="margin-top: 7px" class="form-group row">
+            <label asp-for="DiemHeSo1_1" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <input asp-for="DiemHeSo1_1" class="form-control" placeholder="GhiChu">
+            </div>
+            <span asp-validation-for="DiemHeSo1_1" class="text-danger"></span>
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <label asp-for="DiemHeSo1_2" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <input asp-for="DiemHeSo1_2" class="form-control" placeholder="GhiChu">
+            </div>
+            <span asp-validation-for="DiemHeSo1_2" class="text-danger"></span>
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <label asp-for="DiemHeSo1_3" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <input asp-for="DiemHeSo1_3" class="form-control" placeholder="GhiChu">
+            </div>
+            <span asp-validation-for="DiemHeSo1_3" class="text-danger"></span>
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <label asp-for="DiemHeSo2_1" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <input asp-for="DiemHeSo2_1" class="form-control" placeholder="GhiChu">
+            </div>
+            <span asp-validation-for="DiemHeSo2_1" class="text-danger"></span>
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <label asp-for="DiemHeSo2_2" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <input asp-for="DiemHeSo2_2" class="form-control" placeholder="GhiChu">
+            </div>
+            <span asp-validation-for="DiemHeSo2_2" class="text-danger"></span>
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <label asp-for="DiemHeSo3" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <input asp-for="DiemHeSo3" class="form-control" placeholder="GhiChu">
+            </div>
+            <span asp-validation-for="DiemHeSo3" class="text-danger"></span>
+        </div>
+        <div style="margin-top:10px" class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary"> Edit</button>
+            </div>
+        </div>
+    </form>
+</div>

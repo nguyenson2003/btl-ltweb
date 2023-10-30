@@ -8,6 +8,10 @@
 @model IEnumerable<GiaoVien>
 
 <div class="ms-2 mx-2">
+    @if (ViewBag.Alert)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">Giáo viên còn chi tiết chưa xóa </div>
+    }
     <div class="m-3">
         Chọn lớp: <select id="lophoc" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select>
     </div>
@@ -17,6 +21,7 @@
     <div id="content">
         @{Html.RenderPartial("Table");}
     </div>
+    
     <a asp-action="Create" class="btn btn-primary">Thêm giáo viên</a>
 </div>
 @section Scripts{

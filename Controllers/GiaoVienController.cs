@@ -14,8 +14,10 @@ namespace btl_tkweb.Controllers
             this.db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(bool? alert)
         {
+           if(alert == null) alert = false;
+            ViewBag.Alert = alert;
             var gv = db.GiaoVien.Include(s => s.MonHoc).ToList();
             var lop = new List<Lop>();
             lop.Add(new Lop() { LopID = "" });
@@ -146,7 +148,9 @@ namespace btl_tkweb.Controllers
             }
             if (gv.ctgd.Count() > 0)
             {
-                return Content("Giáo viên còn chi tiết chưa xóa!");
+                
+                
+                return RedirectToAction("Index", new {alert = true});
             }
             return View(gv);
         }
