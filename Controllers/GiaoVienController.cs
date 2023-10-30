@@ -101,6 +101,8 @@ namespace btl_tkweb.Controllers
         {
             if (id != gv.GiaoVienID)
             {
+                return Content(id + " "+ gv.GiaoVienID);
+
                 return NotFound();
             }
             if (ModelState.IsValid)

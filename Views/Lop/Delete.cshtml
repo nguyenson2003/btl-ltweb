@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Xóa sinh viên " + Model.LopID;
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@model Lop
+<div class="ms-2 mx-2">
+
+    <h3>Bạn có chắc muốn xóa lớp học này?</h3>
+    <h4>Thao tác này sẽ xóa tất cả học sinh trong lớp đó và các chi tiết giảng dạy liên quan</h4>
+
+    <hr/>
+    <dl class="row list-group list-group-flush">
+        <div class="list-group-item list-group-item-action">
+            <dt class="col-sm-2 ">
+                @Html.DisplayNameFor(model => model.LopID)
+            </dt>
+            <dd class="col-sm-10 ">
+                @Html.DisplayFor(model => model.LopID)
+            </dd>
+        </div>
+        <div class="list-group-item list-group-item-action">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model=> model.GVCN)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.GVCN)
+            </dd>
+        </div>
+    </dl>
+    <form asp-action="Delete">
+        <div class="d-grid gap-2 d-md-block">
+            <input type="hidden" asp-for="@Model.LopID" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a class="btn btn-primary" asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

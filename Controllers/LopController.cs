@@ -84,5 +84,35 @@ namespace btl_tkweb.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            if (id == null) return NotFound();
+            var lop = db.Lop.Find(id);
+            if (lop == null) return NotFound();
+            return View(lop);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(string id)
+        {
+            if (id == null) return NotFound();
+            var lop = db.Lop.Include(l=>l.dshs).Where(l=>l.LopID==id);
+            if (lop.Count() == 0) return NotFound();
+            foreach (var item in lop.First().dshs)
+            {
+                item.deleteBangDiem(db);
+                db.SaveChanges();
+                db.Remove(item);
+                db.SaveChanges();
+            }
+            foreach (var item in lop.First().ctgd)
+            {
+                db.Remove(item);
+            }
+            db.Lop.Remove(lop.First());
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
