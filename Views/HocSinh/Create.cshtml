@@ -51,14 +51,15 @@
             <div class="col-sm-10">
                 
                 <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" id="radio1" name="Gender" value="True"/>
+                    <input asp-for="Nu" type="radio" class="form-check-input" id="radio1" name="Gender" value="true" checked="checked"/>
                     <label for="radio1" class="form-check-label">True</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" id="radio2" name ="Gender" value="False"/>
+                    <input asp-for="Nu"  type="radio" class="form-check-input" id="radio2" name="Gender" value="false" />
                     <label for="radio2" class="form-check-label">False</label>
                 </div>
             </div>
+            
             <span asp-validation-for="Nu" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">

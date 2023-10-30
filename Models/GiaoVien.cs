@@ -1,9 +1,12 @@
-﻿namespace btl_tkweb.Models
+﻿using Microsoft.EntityFrameworkCore.Design.Internal;
+
+namespace btl_tkweb.Models
 {
     public class GiaoVien
     {
         public GiaoVien()
         {
+            ctgd = new HashSet<ChiTietGiangDay>();
             Password = "demo123456";
         }
         public int GiaoVienID { get; set; }

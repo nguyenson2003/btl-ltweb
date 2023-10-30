@@ -54,5 +54,82 @@ namespace btl_tkweb.Controllers
                 return PartialView(gv);
             }
         }
+
+
+        public IActionResult Create()
+        {
+            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", "");
+            return View();
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create([Bind("HoVaTen", "Nu","NgaySinh", "MonHocID","GhiChu")] GiaoVien gv)
+        {
+        
+            if(ModelState.IsValid)
+            {
+
+                db.GiaoVien.Add(gv);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+
+            }
+            return View();
+            
+        }
+
+        public IActionResult Edit(int id)
+        {
+            if (id == null || db.GiaoVien == null)
+            {
+                return NotFound();
+            }
+            var gv = db.GiaoVien.Find(id);
+            if (gv == null)
+            {
+                return NotFound();
+            }
+            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
+            return View(gv);
+        }
+
+        [HttpPost]
+
+        public IActionResult Edit(int id, [Bind("GiaoVienID", "HoVaTen", "Nu", "NgaySinh", "MonHocID", "GhiChu")] GiaoVien gv)
+        {
+            if (id != gv.GiaoVienID)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Update(gv);
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!Gvexist(gv.GiaoVienID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHoc.MonHocID);
+            return View(gv);
+        }
+        private bool Gvexist(int id)
+        {
+            return (db.GiaoVien?.Any(e => e.GiaoVienID == id)).GetValueOrDefault();
+        }
+
     }
 }
