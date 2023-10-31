@@ -37,13 +37,9 @@ namespace btl_tkweb.Data
                     context.MonHoc.Add(x);
                 }
                 context.SaveChanges();
-                foreach (var hs in hocsinh)
+                foreach (var x in hocsinh)
                 {
-                    foreach (var mon in monhoc)
-                    {
-                        DiemSo x = new DiemSo() { HocSinhId = hs.HocSinhID, MonHocID=mon.MonHocID};
-                        context.DiemSo.Add(x);
-                    }
+                    x.createBangDiem(context);
                 }
                 context.SaveChanges();
                 var giaovien = new GiaoVien[]

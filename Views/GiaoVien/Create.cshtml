@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Thêm giáo viên";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@model GiaoVien
+<div class="ms-2 mx-2">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-controller="GiaoVien" asp-action="Create" method="post" class="mt-3">
+        <div style="margin-top:7px" class="form-group row">
+
+            <label asp-for="HoVaTen" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="form-floating">
+                    <input asp-for="HoVaTen" class="form-control " placeholder="Ho" , id="HoVaTen">
+                    <label for="HoVaTen" class="form-label">HoVaTen</label>
+                </div>
+            </div>
+            <span asp-validation-for="HoVaTen" class="text-danger"></span>
+        </div>
+        
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="MonHocID" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+
+                 <select asp-for="MonHocID" class="form-select mr-sm-2" asp-items="@ViewBag.MonHocID"></select> 
+
+
+            </div>
+            <span asp-validation-for="MonHocID" class="text-danger"></span>
+        </div>
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="NgaySinh" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="NgaySinh" class="form-control form-control-lg" />
+            </div>
+            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+        </div>
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="Nu" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+
+                <div class="form-check form-check-inline">
+                    <input asp-for="Nu" type="radio" class="form-check-input" id="radio1" name="Gender" value="true" checked="checked" />
+                    <label for="radio1" class="form-check-label">True</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input asp-for="Nu" type="radio" class="form-check-input" id="radio2" name="Gender" value="false" />
+                    <label for="radio2" class="form-check-label">False</label>
+                </div>
+            </div>
+
+            <span asp-validation-for="Nu" class="text-danger"></span>
+        </div>
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="GhiChu" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="form-floating">
+                    <input asp-for="GhiChu" class="form-control form-control-lg" id="GhiChu" placeholder="GhiChu" />
+                    <label for="GhiChu">Ghi Chu</label>
+                </div>
+            </div>
+            <span asp-validation-for="GhiChu" class="text-danger"></span>
+        </div>
+        <div style="margin-top:10px" class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+

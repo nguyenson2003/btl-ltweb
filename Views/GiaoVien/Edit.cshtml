@@ -1,31 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Cập nhật sinh viên lớp " + Model.LopID;
+    ViewData["Title"] = "Cập nhật giáo viên";
     Layout = "~/Views/Shared/MyLayout.cshtml";
 }
-@model HocSinh
+@model GiaoVien
 <div class="ms-2 mx-2">
-    <div asp-validation-summary="All" class="text-danger"></div> 
-    <form asp-controller="HocSinh" asp-action="Edit" asp-route-id="@Model.HocSinhID"
-                                                                       method="post" class="mt-3">
-        <input type="hidden" asp-for="HocSinhID" /> <div style="margin-top:7px" class="form-group row">
-            <label asp-for="Ho" class="col-sm-2 col-form-label"></label> 
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-controller="GiaoVien" asp-action="Edit" asp-route-id="@Model.GiaoVienID"
+          method="post" class="mt-3">
+        <input type="hidden" asp-for="GiaoVienID" /> <div style="margin-top:7px" class="form-group row">
+            <label asp-for="HoVaTen" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
-                <input asp-for="Ho" class="form-control" placeholder="Ho">
+                <input asp-for="HoVaTen" class="form-control" placeholder="Ho">
             </div>
-            <span asp-validation-for="Ho" class="text-danger"></span>
+            <span asp-validation-for="HoVaTen" class="text-danger"></span>
         </div>
-        <div style="margin-top: 7px" class="form-group row">
-            <label asp-for="Ten" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
-                <input asp-for="Ten" class="form-control" placeholder="Ten">
-            </div>
-            <span asp-validation-for="Ten" class="text-danger"></span>
-        </div>
+        
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="LopID" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
-                <select asp-for="LopID" class="custom-select mr-smi-2" asp-items="@ViewBag.LopID"></select>
+            <label asp-for="MonHocID" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+                <select asp-for="MonHocID" class="custom-select mr-smi-2" asp-items="@ViewBag.MonHocID"></select>
             </div>
         </div>
-        <span asp-validation-for="LopID" class="text-danger"></span>
+        <span asp-validation-for="MonHocID" class="text-danger"></span>
         <div style="margin-top:7px" class="form-group row">
             <label asp-for="NgaySinh" class="col-sm-2 col-form-label"></label> <div class=" col-sm-10">
                 <input asp-for="NgaySinh" class="form-control" />
@@ -36,12 +31,12 @@
             <label asp-for="Nu" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
                 <div class="form-check form-check-inline">
-                    <input asp-for="Nu" type="radio" class="form-check-input" id="radio1" name="Nu" value="true"  checked/>
+                    <input asp-for="Nu" type="radio" class="form-check-input" id="radio1" name="Nu" value="true" checked />
                     <label for="radio1" asp-for="Nu" class="form-check-label">True</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input asp-for="Nu" type="radio" class="form-check-input" id="radio2" name="Nu" value="false" />
-                    <label for="radio2"  asp-for="Nu" class="form-check-label">False</label>
+                    <label for="radio2" asp-for="Nu" class="form-check-label">False</label>
                 </div>
             </div>
             <span asp-validation-for="Nu" class="text-danger"></span>

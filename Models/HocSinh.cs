@@ -1,4 +1,6 @@
-﻿namespace btl_tkweb.Models
+﻿using btl_tkweb.Data;
+
+namespace btl_tkweb.Models
 {
     public class HocSinh
     {
@@ -28,5 +30,24 @@
         public string Password { get; set; }
         public virtual ICollection<DiemSo> DiemSo { get; set; }
 
+        public void createBangDiem(SchoolContext db)
+        {
+            foreach (var mon in db.MonHoc)
+            {
+                DiemSo d = new DiemSo() { MonHocID = mon.MonHocID, HocSinhId = this.HocSinhID };
+                db.Add(d);
+            }
+            db.SaveChanges();
+        }
+        public void deleteBangDiem(SchoolContext db)
+        {
+            foreach (var d in db.DiemSo)
+            {
+                if(d.HocSinhId==this.HocSinhID) { 
+                    db.Remove(d);
+                }
+            }
+            db.SaveChanges();
+        }
     }
 }

@@ -28,7 +28,10 @@
                         <div class="shadow p-3">
                             <h1>@ViewData["Title"]</h1>
                         </div>
-                        @RenderBody()
+                        <div class="m-3">
+                            @RenderBody()
+
+                        </div>
                         @RenderSection("scripts", required: false)
                     </main>
                     <!-- End Main -->
