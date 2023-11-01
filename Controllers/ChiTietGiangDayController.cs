@@ -1,15 +1,16 @@
 ﻿using btl_tkweb.Data;
+using btl_tkweb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace btl_tkweb.Controllers
 {
-    public class ChiTietGiangDay : Controller
+    public class ChiTietGiangDayController : Controller
     {
         SchoolContext db;
 
-        public ChiTietGiangDay(SchoolContext db)
+        public ChiTietGiangDayController(SchoolContext db)
         {
             this.db = db;
         }
@@ -36,7 +37,7 @@ namespace btl_tkweb.Controllers
             ViewBag.GiaoVienID = GiaoVienID;
             if (ModelState.IsValid)
             {
-                db.HocSinh.Add(ct);
+                db.ChiTietGiangDay.Add(ct);
                 db.SaveChanges();
                 
                 return RedirectToAction("Index", new { GiaoVienID });
