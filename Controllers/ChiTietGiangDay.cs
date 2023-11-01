@@ -1,5 +1,6 @@
 ﻿using btl_tkweb.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace btl_tkweb.Controllers
@@ -18,6 +19,30 @@ namespace btl_tkweb.Controllers
             var gv = gd.First().GiaoVien;
             ViewBag.GiaoVien = gv?.HoVaTen;
             return View(gd);
+        }
+
+
+        public IActionResult Create(int GiaoVienID)
+        {
+            ViewBag.GiaoVienID = GiaoVienID;
+            ViewBag.Lop = new SelectList(db.Lop, "LopID", "LopID");
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult Create([Bind("GiaoVienID", "LopHocID")] ChiTietGiangDay ct, string GiaoVienID)
+        {
+            ViewBag.GiaoVienID = GiaoVienID;
+            if (ModelState.IsValid)
+            {
+                db.HocSinh.Add(ct);
+                db.SaveChanges();
+                
+                return RedirectToAction("Index", new { GiaoVienID });
+            }
+            ViewBag.Lop = new SelectList(db.Lop, "LopID", "LopID");
+            return View();
         }
 
         public IActionResult Delete(int id)
@@ -48,6 +73,10 @@ namespace btl_tkweb.Controllers
             {
                 
                 db.ChiTietGiangDay.Remove(ct);
+
+            }
+            else
+            {
 
             }
             db.SaveChanges();

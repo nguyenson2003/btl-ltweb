@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Thêm chi tiết giảng dạy";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@model ChiTietGiangDay
+<div class="ms-2 mx-2">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-controller="ChiTietGiangDay" asp-action="Create" method="post" class="mt-3">
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="ChiTietGiangDayId" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+
+                @*  <select asp-for="LopID" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select> *@
+                <input asp-for="GiaoVienID" class="form-control form-control-lg" value="@ViewBag.GiaoVienID" text="@ViewBag.GiaoVienID" id="GVID" />
+
+
+            </div>
+            <span asp-validation-for="GiaoVienID" class="text-danger"></span>
+        </div>
+
+        <div style="margin-top:7px" class="form-group row">
+            <label asp-for="ChiTietGiangDayId" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+
+                  <select asp-for="LopHocId" class="custom-select mr-sm-2" asp-items="@ViewBag.Lop"></select> 
+
+
+            </div>
+            <span asp-validation-for="LopHocId" class="text-danger"></span>
+        </div>
+
+
+
+
+        
+    </form>
+</div>
+
