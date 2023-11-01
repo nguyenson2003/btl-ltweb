@@ -13,12 +13,12 @@ namespace btl_tkweb.Controllers
     {
         SchoolContext db; 
         private readonly SignInManager<AccountUser> _signInManager;
-        private readonly UserManager<AccountUser> _userManager;
-        private readonly IUserStore<AccountUser> _userStore;
+        private readonly UserManager<HocSinh> _userManager;
+        private readonly IUserStore<HocSinh> _userStore;
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         public HocSinhController(
-            UserManager<AccountUser> userManager,
-            IUserStore<AccountUser> userStore,
+            UserManager<HocSinh> userManager,
+            IUserStore<HocSinh> userStore,
             SignInManager<AccountUser> signInManager,
             SchoolContext db
         ) {
@@ -51,18 +51,13 @@ namespace btl_tkweb.Controllers
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                db.HocSinh.Add(hs);
-                db.SaveChanges();
-                hs.createBangDiem(db);
-                
-                var user = new AccountUser{HocSinh = hs};
-
-                await _userStore.SetUserNameAsync(user, hs.Username, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, "Utc@123");
+                await _userStore.SetUserNameAsync(hs, hs.Username, CancellationToken.None);
+                var result = await _userManager.CreateAsync(hs, "Utc@123");
 
                 if (result.Succeeded)
                 {
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userId = await _userManager.GetUserIdAsync(hs);
+                    hs.createBangDiem(db);
                     return RedirectToAction("Index",new {LopID});
                 }
                 foreach (var error in result.Errors)

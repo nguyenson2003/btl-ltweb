@@ -2,7 +2,7 @@
 
 namespace btl_tkweb.Models
 {
-    public class GiaoVien 
+    public class GiaoVien : AccountUser
     {
         public GiaoVien()
         {

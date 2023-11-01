@@ -18,7 +18,7 @@ namespace btl_tkweb.Controllers
         {
             try
             {
-            var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId.Equals(HocSinhID)).ToList();
+            var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId1.Equals(HocSinhID)).ToList();
             var hs = bd.First().HocSinh;
             ViewBag.HocSinh = hs.Ho + hs.Ten;
             return View(bd);
@@ -67,11 +67,11 @@ namespace btl_tkweb.Controllers
                     }
                     else
                     {
-                        return Content("" + ds.HocSinhId);
+                        return Content("" + ds.HocSinhId1);
                         throw;
                     }
                 }
-                return RedirectToAction("Index", new {ds.HocSinhId});
+                return RedirectToAction("Index", new {ds.HocSinhId1});
             }
             
             return View(ds);

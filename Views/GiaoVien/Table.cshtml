@@ -11,6 +11,7 @@
             <th>Giới tính</th>
             <th>Ngày sinh</th>
             <th>Môn học</th>
+            <th>Tên tài khoản</th>
             <th>Ghi chú</th>
             <th></th>
             <th></th>
@@ -29,6 +30,7 @@
                 <td>@GioiTinh</td>
                 <td>@s.NgaySinh</td>
                 <td>@s.MonHoc.TenMon</td>
+                <td>@s.Username</td>
                 <td>@s.GhiChu</td>
                 <td>|</td>
                 <td> <a asp-controller="ChiTietGiangDay" asp-action="Index" asp-route-giaovienid="@s.GiaoVienID">Chi tiết giảng dạy</a> |  <a asp-action="Edit" asp-route-id="@s.GiaoVienID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.GiaoVienID">Delete</a></td>

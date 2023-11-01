@@ -56,11 +56,11 @@ namespace btl_tkweb.Data
                 context.SaveChanges();
                 var ctgd = new ChiTietGiangDay[]
                 {
-                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID=1},
-                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID=2},
-                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID=3},
-                    new ChiTietGiangDay(){LopHocId="10A2", GiaoVienID=1},
-                    new ChiTietGiangDay(){LopHocId="10A2", GiaoVienID=4},
+                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID1=1},
+                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID1=2},
+                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID1=3},
+                    new ChiTietGiangDay(){LopHocId="10A2", GiaoVienID1=1},
+                    new ChiTietGiangDay(){LopHocId="10A2", GiaoVienID1=4},
                 };
                 foreach (var x in ctgd)
                 {

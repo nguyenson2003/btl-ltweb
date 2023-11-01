@@ -16,7 +16,7 @@ namespace btl_tkweb.Controllers
         }
         public IActionResult Index(int GiaoVienID)
         {
-            var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
+            var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID1 == GiaoVienID).ToList();
             var gv = gd.First().GiaoVien;
             ViewBag.GiaoVien = gv?.HoVaTen;
             return View(gd);
@@ -52,7 +52,7 @@ namespace btl_tkweb.Controllers
             {
                 return NotFound();
             }
-            var gv = db.ChiTietGiangDay.Include(l => l.Lop).Include(e => e.GiaoVien).FirstOrDefault(m => m.GiaoVienID == id);
+            var gv = db.ChiTietGiangDay.Include(l => l.Lop).Include(e => e.GiaoVien).FirstOrDefault(m => m.GiaoVienID1 == id);
             if (gv == null)
             {
                 return NotFound();
@@ -68,7 +68,7 @@ namespace btl_tkweb.Controllers
                 return Problem("Khong con chi tiet de xoa");
             }
             var ct = db.ChiTietGiangDay.Find(id);
-            var GiaoVienID = ct.GiaoVienID;
+            var GiaoVienID = ct.GiaoVienID1;
 
             if (ct != null)
             {

@@ -1,5 +1,7 @@
 ﻿using btl_tkweb.Data;
 using btl_tkweb.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +11,21 @@ namespace btl_tkweb.Controllers
     public class GiaoVienController : Controller
     {
         SchoolContext db;
-        public GiaoVienController(SchoolContext db)
+        private readonly SignInManager<AccountUser> _signInManager;
+        private readonly UserManager<GiaoVien> _userManager;
+        private readonly IUserStore<GiaoVien> _userStore; 
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public GiaoVienController(
+            UserManager<GiaoVien> userManager,
+            IUserStore<GiaoVien> userStore,
+            SignInManager<AccountUser> signInManager,
+            SchoolContext db
+        )
         {
             this.db = db;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _userStore = userStore;
         }
 
         public IActionResult Index(bool? alert)
@@ -67,15 +81,24 @@ namespace btl_tkweb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("HoVaTen", "Nu","NgaySinh", "MonHocID","GhiChu")] GiaoVien gv)
+        public async Task<IActionResult> Create([Bind("HoVaTen", "Nu","NgaySinh", "MonHocID","GhiChu")] GiaoVien gv)
         {
         
             if(ModelState.IsValid)
             {
 
-                db.GiaoVien.Add(gv);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                await _userStore.SetUserNameAsync(gv, gv.Username, CancellationToken.None);
+                var result = await _userManager.CreateAsync(gv, "Utc@123");
+
+                if (result.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(gv);
+                    return RedirectToAction("Index");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
 
             }
             return View();

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace btl_tkweb.Models
 {
-    public class HocSinh
+    public class HocSinh : AccountUser
     {
         public HocSinh() {
             DiemSo=new HashSet<DiemSo>();
@@ -35,7 +35,7 @@ namespace btl_tkweb.Models
         {
             foreach (var mon in db.MonHoc)
             {
-                DiemSo d = new DiemSo() { MonHocID = mon.MonHocID, HocSinhId = this.HocSinhID };
+                DiemSo d = new DiemSo() { MonHocID = mon.MonHocID, HocSinhId1 = this.HocSinhID };
                 db.Add(d);
             }
             db.SaveChanges();
@@ -44,7 +44,7 @@ namespace btl_tkweb.Models
         {
             foreach (var d in db.DiemSo)
             {
-                if(d.HocSinhId==this.HocSinhID) { 
+                if(d.HocSinhId1==this.HocSinhID) { 
                     db.Remove(d);
                 }
             }
