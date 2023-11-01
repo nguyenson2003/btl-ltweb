@@ -13,6 +13,7 @@
             <th>Môn học</th>
             <th>Ghi chú</th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +30,8 @@
                 <td>@s.NgaySinh</td>
                 <td>@s.MonHoc.TenMon</td>
                 <td>@s.GhiChu</td>
-                <td><a asp-action="Edit" asp-route-id="@s.GiaoVienID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.GiaoVienID">Delete</a></td>
+                <td>|</td>
+                <td> <a asp-controller="ChiTietGiangDay" asp-action="Index" asp-route-giaovienID="@s.GiaoVienID">Chi tiết giảng dạy</a> |  <a asp-action="Edit" asp-route-id="@s.GiaoVienID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.GiaoVienID">Delete</a></td>
             </tr>
         }
     </tbody>
