@@ -1,5 +1,7 @@
 ﻿using btl_tkweb.Data;
 using btl_tkweb.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +11,21 @@ namespace btl_tkweb.Controllers
 {
     public class HocSinhController : Controller
     {
-        SchoolContext db;
-        public HocSinhController(SchoolContext db)
-        {
-            this.db = db;
+        SchoolContext db; 
+        private readonly SignInManager<AccountUser> _signInManager;
+        private readonly UserManager<AccountUser> _userManager;
+        private readonly IUserStore<AccountUser> _userStore;
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public HocSinhController(
+            UserManager<AccountUser> userManager,
+            IUserStore<AccountUser> userStore,
+            SignInManager<AccountUser> signInManager,
+            SchoolContext db
+        ) {
+            this.db = db; 
+            _userManager = userManager;
+            _userStore = userStore;
+            _signInManager = signInManager;
         }
         public IActionResult Index(string LopID)
         {
@@ -32,15 +45,30 @@ namespace btl_tkweb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs,string LopID)
+        public async Task<IActionResult> Create([Bind("Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs,string LopID)
         {
             ViewBag.LopID = LopID;
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 db.HocSinh.Add(hs);
                 db.SaveChanges();
                 hs.createBangDiem(db);
-                return RedirectToAction("Index",new {LopID});
+                
+                var user = new AccountUser{HocSinh = hs};
+
+                await _userStore.SetUserNameAsync(user, hs.Username, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, "Utc@123");
+
+                if (result.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    return RedirectToAction("Index",new {LopID});
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
             return View();
         }

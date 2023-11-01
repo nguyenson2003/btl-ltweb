@@ -15,6 +15,7 @@
                 <th>Giới tính</th>
                 <th>Ngày sinh</th>
                 <th>Lớp</th>
+                <th>Tên tài khoản</th>
                 <th>Ghi chú</th>
                 <th></th>
             </tr>
@@ -34,6 +35,7 @@
                     <td>@GioiTinh</td>
                     <td>@s.NgaySinh.ToShortDateString()</td>
                     <td>@s.LopID</td>
+                    <td>@s.Username</td>
                     <td>@s.GhiChu</td>
                     <td><a asp-controller="DiemSo" asp-action="Index" asp-route-hocsinhid="@s.HocSinhID">Bảng điểm</a>  |  <a asp-action="Edit" asp-route-id="@s.HocSinhID">Edit</a> | <a asp-action="Delete" asp-route-id="@s.HocSinhID">Delete</a></td>
 

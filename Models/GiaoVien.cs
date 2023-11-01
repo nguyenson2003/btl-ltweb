@@ -2,12 +2,11 @@
 
 namespace btl_tkweb.Models
 {
-    public class GiaoVien
+    public class GiaoVien 
     {
         public GiaoVien()
         {
             ctgd = new HashSet<ChiTietGiangDay>();
-            Password = "demo123456";
         }
         public int GiaoVienID { get; set; }
         public string HoVaTen { get; set; }
@@ -16,7 +15,7 @@ namespace btl_tkweb.Models
         public int MonHocID { get; set; }
         public virtual MonHoc? MonHoc { get; set; }
         public string? GhiChu { get; set; }
-        public string Username { get { 
+        public  string Username { get { 
                 string user = "";
                 HoVaTen= ""+HoVaTen;
                 for (int i = 0; i < HoVaTen.Length; i++)
@@ -27,7 +26,6 @@ namespace btl_tkweb.Models
                 user += GiaoVienID + "@gv.demo.io";
                 return user;
         } }
-        public string Password { get; set; }
         public virtual ICollection<ChiTietGiangDay> ctgd { get; set; }
     }
 }

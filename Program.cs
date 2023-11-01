@@ -1,9 +1,15 @@
 using btl_tkweb.Data;
 using Microsoft.EntityFrameworkCore;
 using static System.Formats.Asn1.AsnWriter;
+using Microsoft.AspNetCore.Identity;
+using btl_tkweb.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SchoolContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext")));
+
+builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<SchoolContext>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
@@ -34,4 +41,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Lop}/{action=Index}/{id?}");
 
+app.MapRazorPages();
 app.Run();

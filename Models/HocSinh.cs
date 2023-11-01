@@ -1,4 +1,6 @@
 ﻿using btl_tkweb.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace btl_tkweb.Models
 {
@@ -6,11 +8,11 @@ namespace btl_tkweb.Models
     {
         public HocSinh() {
             DiemSo=new HashSet<DiemSo>();
-            Password = "demo123456";
         }
         public int HocSinhID { get; set; }
         public string Ho { get; set; }
         public string Ten { get; set; }
+        public string HoVaTen { get { return Ho + " " + Ten; } }
         public bool Nu { get; set; }
         public DateTime NgaySinh { get; set; }
         public string LopID { get; set; }
@@ -27,7 +29,6 @@ namespace btl_tkweb.Models
             user += HocSinhID + "@hs.demo.io";
             return user;
         } }
-        public string Password { get; set; }
         public virtual ICollection<DiemSo> DiemSo { get; set; }
 
         public void createBangDiem(SchoolContext db)
