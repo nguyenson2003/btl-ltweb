@@ -20,15 +20,15 @@ namespace btl_tkweb.Models
         public virtual MonHoc? MonHoc { get; set; }
         public string? GhiChu { get; set; }
         public  string Username { get { 
-                string user = "";
+                string user = "GV";
                 HoVaTen= ""+HoVaTen;
                 for (int i = 0; i < HoVaTen.Length; i++)
                 {
                     if (HoVaTen[i] == ' ') continue;
                     user += HoVaTen[i];
                 }
-                user += GiaoVienID + "@gv.demo.io";
-                return user;
+                user += GiaoVienID ;
+                return removeUnicode.RemoveUnicode(user);
         } }
         public virtual ICollection<ChiTietGiangDay> ctgd { get; set; }
     }

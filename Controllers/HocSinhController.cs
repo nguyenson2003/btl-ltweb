@@ -49,7 +49,7 @@ namespace btl_tkweb.Controllers
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                hs.UserName=hs.Username;
+                hs.UserName = hs.Username;
                 var result = await _userManager.CreateAsync(hs, "Utc@123");
 
                 if (result.Succeeded)

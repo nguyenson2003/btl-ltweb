@@ -1,6 +1,8 @@
 ﻿using btl_tkweb.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace btl_tkweb.Models
 {
@@ -23,15 +25,15 @@ namespace btl_tkweb.Models
         public virtual Lop? Lop { get; set; }
         public string? GhiChu { get; set; }
         public string Username { get { 
-            string user = "";
+            string user = "HS";
             string HoVaTen = Ho + Ten;
             for (int i = 0; i < HoVaTen.Length; i++)
             {
                 if (HoVaTen[i] == ' ') continue;
                 user += HoVaTen[i];
             }
-            user += HocSinhID + "@hs.demo.io";
-            return user;
+            user += HocSinhID;
+            return removeUnicode.RemoveUnicode(user);
         } }
         public virtual ICollection<DiemSo> DiemSo { get; set; }
 

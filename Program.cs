@@ -7,7 +7,10 @@ using btl_tkweb.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SchoolContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = false )
+builder.Services.AddDefaultIdentity<AccountUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+    
+})
     .AddEntityFrameworkStores<SchoolContext>();
 
 builder.Services.AddIdentityCore<AccountUser>()
