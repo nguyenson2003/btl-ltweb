@@ -11,7 +11,7 @@
     <dl class="row list-group list-group-flush">
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2 ">
-                @Html.DisplayNameFor(model => model.HoVaTen)
+                <div class="bg-gradient">Họ và tên</div>
             </dt>
             <dd class="col-sm-10 ">
                 @Html.DisplayFor(model => model.HoVaTen)
@@ -20,7 +20,7 @@
         
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.MonHocID)
+                <div class="bg-gradient">Lớp học</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.MonHoc.MonHocID)
@@ -28,7 +28,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NgaySinh)
+                <div class="bg-gradient">Ngày sinh</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.NgaySinh)
@@ -36,7 +36,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Nu)
+                <div class="bg-gradient">Nữ</div>
             </dt>
             <dd class="col-sm-10">
                 @{
@@ -53,7 +53,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.GhiChu)
+                <div class="bg-gradient">Ghi chú</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.GhiChu)
@@ -63,8 +63,8 @@
     <form asp-action="Delete">
         <div class="d-grid gap-2 d-md-block">
             <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a class="btn btn-primary" asp-action="Index" >Back to List</a>
+            <input type="submit" value="Xóa" class="btn btn-danger" /> |
+            <a class="btn btn-primary" asp-action="Index" >Quay lại</a>
         </div>
     </form>
 </div>

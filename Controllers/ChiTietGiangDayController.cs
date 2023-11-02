@@ -23,9 +23,9 @@ namespace btl_tkweb.Controllers
         }
 
 
-        public IActionResult Create(int GiaoVienID)
+        public IActionResult Create()
         {
-            ViewBag.GiaoVienID = GiaoVienID;
+           
             ViewBag.Lop = new SelectList(db.Lop, "LopID", "LopID");
             return View();
 
