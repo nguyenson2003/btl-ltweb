@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Xóa sinh viên " + Model.LopID;
+    ViewData["Title"] = "Xóa lớp học";
     Layout = "~/Views/Shared/MyLayout.cshtml";
 }
 @model Lop
@@ -12,7 +12,7 @@
     <dl class="row list-group list-group-flush">
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2 ">
-                @Html.DisplayNameFor(model => model.LopID)
+                <div class="bg-gradient">Tên lớp</div>
             </dt>
             <dd class="col-sm-10 ">
                 @Html.DisplayFor(model => model.LopID)
@@ -20,7 +20,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model=> model.GVCN)
+                <div class="bg-gradient">Giáo viên chủ nhiệm</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.GVCN)
@@ -30,8 +30,8 @@
     <form asp-action="Delete">
         <div class="d-grid gap-2 d-md-block">
             <input type="hidden" asp-for="@Model.LopID" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a class="btn btn-primary" asp-action="Index">Back to List</a>
+            <input type="submit" value="Xóa" class="btn btn-danger" /> |
+            <a class="btn btn-primary" asp-action="Index">Quay lại</a>
         </div>
     </form>
 </div>

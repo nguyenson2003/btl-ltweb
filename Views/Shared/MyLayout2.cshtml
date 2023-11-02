@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewData["Title"] - Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</head>
+<body>
+    <main style="height:100vh;display:flex; flex-direction:column;">
+        <partial name="CollapsingNav" />
+        <main style="display:flex;flex-grow:1;height:100%;overflow: clip;">
+            <!-- Begin nav -->
+            @await Component.InvokeAsync("LeftMenu");
+            <!-- End nav -->
+
+            <div id="layoutContent" style="flex-grow:1;overflow-y: auto;">
+                <!-- Begin Right content -->
+                <div id="layoutSidenav_content">
+                    <!-- Begin Main -->
+                    <main>
+                        <div class="shadow p-3">
+                            <h1>@ViewData["Title"]</h1>
+                        </div>
+                        <div class="m-3">
+                            @RenderBody()
+
+                        </div>
+                        @RenderSection("scripts", required: false)
+                    </main>
+                    <!-- End Main -->
+                </div>
+                <!-- End Right content -->
+            </div>
+        </main>
+    </main>
+</body>
+</html>

@@ -13,10 +13,10 @@
         <div class="alert alert-danger alert-dismissible" role="alert">Giáo viên còn chi tiết chưa xóa </div>
     }
     <div class="m-3">
-        Chọn lớp: <select id="lophoc" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select>
+        Lớp: <select id="lophoc" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select>
     </div>
     <div class="m-3">
-        Chọn môn học: <select id="monhoc" class="custom-select mr-sm-2" asp-items="@ViewBag.MonHoc"></select>
+        Môn học: <select id="monhoc" class="custom-select mr-sm-2" asp-items="@ViewBag.MonHoc"></select>
     </div>
     <div id="content">
         @{Html.RenderPartial("Table");}

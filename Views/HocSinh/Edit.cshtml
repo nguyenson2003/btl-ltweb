@@ -10,32 +10,40 @@
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="HocSinhID" />
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="Ho" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="Ho" class="col-sm-2 col-form-label">Họ</label> 
             <div class="col-sm-10">
-                <input asp-for="Ho" class="form-control" placeholder="Ho">
+                <div class="form-floating">
+                    <input asp-for="Ho" class="form-control" placeholder="Ho" id="Ho">
+                    <label for="Ho">Họ</label>
+                </div>
             </div>
             <span asp-validation-for="Ho" class="text-danger"></span>
         </div>
         <div style="margin-top: 7px" class="form-group row">
-            <label asp-for="Ten" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
-                <input asp-for="Ten" class="form-control" placeholder="Ten">
+            <label asp-for="Ten" class="col-sm-2 col-form-label">Tên</label> 
+            <div class="col-sm-10">
+                <div class="form-floating">
+                    <input asp-for="Ten" class="form-control" placeholder="Ten" id="Ten">
+                     <label for="Ten">Tên</label>
+                </div>
             </div>
             <span asp-validation-for="Ten" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="LopID" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
+            <label asp-for="LopID" class="col-sm-2 col-form-label">Lớp học</label>
+            <div class="col-sm-10">
                 <select asp-for="LopID" class="custom-select mr-smi-2" asp-items="@ViewBag.LopID"></select>
             </div>
         </div>
         <span asp-validation-for="LopID" class="text-danger"></span>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="NgaySinh" class="col-sm-2 col-form-label"></label> <div class=" col-sm-10">
+            <label asp-for="NgaySinh" class="col-sm-2 col-form-label">Ngày sinh</label> <div class=" col-sm-10">
                 <input asp-for="NgaySinh" class="form-control" />
             </div>
             <span asp-validation-for="NgaySinh" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="Nu" class="col-sm-2 col-form-label"></label>
+            <label asp-for="Nu" class="col-sm-2 col-form-label">Nữ</label>
             <div class="col-sm-10">
                 <div class="form-check form-check-inline">
                     <input asp-for="Nu" type="radio" class="form-check-input" id="radio1" name="Nu" value="true"  checked/>
@@ -49,14 +57,18 @@
             <span asp-validation-for="Nu" class="text-danger"></span>
         </div>
         <div style="margin-top: 7px" class="form-group row">
-            <label asp-for="GhiChu" class="col-sm-2 col-form-label"></label> <div class="col-sm-10">
-                <input asp-for="GhiChu" class="form-control" placeholder="GhiChu">
+            <label asp-for="GhiChu" class="col-sm-2 col-form-label">Ghi chú</label> 
+            <div class="col-sm-10">
+                <div class="form-floating">
+                    <input asp-for="GhiChu" class="form-control" placeholder="GhiChu" id="GhiChu">
+                    <label for="GhiChu">Ghi chú</label>
+                </div>
             </div>
             <span asp-validation-for="GhiChu" class="text-danger"></span>
         </div>
         <div style="margin-top:10px" class="form-group row">
             <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary"> Edit</button>
+                <button type="submit" class="btn btn-primary">Sửa</button>
             </div>
         </div>
     </form>

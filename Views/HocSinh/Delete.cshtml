@@ -5,13 +5,13 @@
 @model HocSinh
 <div class="ms-2 mx-2">
     
-    <h3>Are you sure you want to delete this?</h3>
+    <h3>Bạn có muốn xóa học sinh này không?(Bảng điểm sẽ được tự động xóa)</h3>
     
     <hr />
     <dl class="row list-group list-group-flush">
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2 ">
-                @Html.DisplayNameFor(model => model.Ho)
+                <div class="bg-gradient">Họ</div>
             </dt>
             <dd class="col-sm-10 ">
                 @Html.DisplayFor(model => model.Ho)
@@ -19,7 +19,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model=> model.Ten)
+                <div class="bg-gradien">Tên</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Ten)
@@ -27,7 +27,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LopID)
+                <div class="bg-gradien">Lớp học</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Lop.LopID)
@@ -35,7 +35,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.NgaySinh)
+                <div class="bg-gradien">Ngày sinh</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.NgaySinh)
@@ -43,7 +43,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Nu)
+                <div class="bg-gradien">Nữ</div>
             </dt>
             <dd class="col-sm-10">
                 @{
@@ -60,7 +60,7 @@
         </div>
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.GhiChu)
+                <div class="bg-gradien">Ghi chú</div>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.GhiChu)
@@ -70,8 +70,8 @@
     <form asp-action="Delete">
         <div class="d-grid gap-2 d-md-block">
             <input type="hidden" asp-for="@Model.Id" />
-            <input type="submit" value="Delete" class="btn btn-danger"/> |
-            <a class="btn btn-primary" asp-action="Index" asp-route-lopid="@Model.LopID">Back to List</a>
+            <input type="submit" value="Xóa" class="btn btn-danger"/> |
+            <a class="btn btn-primary" asp-action="Index" asp-route-lopid="@Model.LopID">Quay lại</a>
         </div>
     </form>
 </div>

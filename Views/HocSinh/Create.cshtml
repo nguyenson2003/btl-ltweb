@@ -9,27 +9,27 @@
     <form asp-controller="HocSinh" asp-action="Create" method="post" class="mt-3">
         <div style="margin-top:7px" class="form-group row">
             
-            <label asp-for="Ho" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="Ho" class="col-sm-2 col-form-label">Họ</label> 
             <div class="col-sm-10">
                  <div class="form-floating">
                     <input asp-for="Ho" class="form-control " placeholder="Ho", id="Ho">
-                    <label for="Ho" class="form-label">Ho</label>
+                    <label for="Ho" class="form-label">Họ</label>
                 </div>
             </div>
             <span asp-validation-for="Ho" class="text-danger"></span>
         </div>
         <div style="margin-top: 7px" class="form-group row">
-            <label asp-for="Ten" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="Ten" class="col-sm-2 col-form-label">Tên</label> 
             <div class="col-sm-10">
                 <div class="form-floating">
                     <input asp-for="Ten" class="form-control" placeholder="Ten" id="Ten"/>
-                    <label for="Ten">Ten</label>
+                    <label for="Ten">Tên</label>
                 </div>
             </div>
             <span asp-validation-for="Ten" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="LopID" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="LopID" class="col-sm-2 col-form-label">Lớp học</label> 
             <div class="col-sm-10">
                
                @*  <select asp-for="LopID" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select> *@
@@ -40,14 +40,14 @@
             <span asp-validation-for="LopID" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="NgaySinh" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="NgaySinh" class="col-sm-2 col-form-label">Ngày sinh</label> 
             <div class="col-sm-10">
                 <input asp-for="NgaySinh" type="date" class="form-control form-control-lg" />
             </div>
             <span asp-validation-for="NgaySinh" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="Nu" class="col-sm-2 col-form-label"></label>
+            <label asp-for="Nu" class="col-sm-2 col-form-label">Nữ</label>
             <div class="col-sm-10">
                 
                 <div class="form-check form-check-inline">
@@ -63,18 +63,18 @@
             <span asp-validation-for="Nu" class="text-danger"></span>
         </div>
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="GhiChu" class="col-sm-2 col-form-label"></label> 
+            <label asp-for="GhiChu" class="col-sm-2 col-form-label">Ghi chú</label> 
             <div class="col-sm-10">
                 <div class="form-floating">
                     <input asp-for="GhiChu" class="form-control form-control-lg" id="GhiChu" placeholder="Ghi Chu"/>
-                    <label for="GhiChu">Ghi Chu</label>
+                    <label for="GhiChu">Ghi chú</label>
                 </div>
             </div>
             <span asp-validation-for="GhiChu" class="text-danger"></span>
         </div>
         <div style="margin-top:10px" class="form-group row">
             <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary" >Create</button>
+                <button type="submit" class="btn btn-primary" >Thêm học sinh</button>
             </div>
         </div>
     </form>
