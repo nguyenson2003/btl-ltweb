@@ -19,13 +19,17 @@ namespace btl_tkweb.Controllers
             var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
             var gv = gd.First().GiaoVien;
             ViewBag.GiaoVien = gv?.HoVaTen;
+            ViewBag.GiaoVienID = GiaoVienID;
             return View(gd);
         }
 
 
-        public IActionResult Create()
+        public IActionResult Create(string GiaoVienID)
         {
-           
+            ViewBag.GiaoVienID = GiaoVienID;
+            var gd = db.ChiTietGiangDay.Include(m => m.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
+            var gv = gd.First().GiaoVien;
+            ViewBag.GiaoVienName = gv?.HoVaTen;
             ViewBag.Lop = new SelectList(db.Lop, "LopID", "LopID");
             return View();
 
