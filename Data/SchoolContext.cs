@@ -20,13 +20,13 @@ namespace btl_tkweb.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AccountUser>().ToTable(nameof(AccountUser));
             modelBuilder.Entity<Lop>().ToTable(nameof(Lop));
             modelBuilder.Entity<HocSinh>().ToTable(nameof(HocSinh));
             modelBuilder.Entity<MonHoc>().ToTable(nameof(MonHoc));
             modelBuilder.Entity<DiemSo>().ToTable(nameof(DiemSo));
             modelBuilder.Entity<GiaoVien>().ToTable(nameof(GiaoVien));
             modelBuilder.Entity<ChiTietGiangDay>().ToTable(nameof(ChiTietGiangDay));
-            modelBuilder.Entity<AccountUser>().ToTable(nameof(AccountUser));
 
         }
     }

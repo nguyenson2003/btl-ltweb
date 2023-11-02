@@ -4,13 +4,12 @@ namespace btl_tkweb.Models
 {
     public class GiaoVien : AccountUser
     {
-        public static int count=-1;
+        public static int count=0;
         public GiaoVien()
         {
             ctgd = new HashSet<ChiTietGiangDay>();
             role = GIAOVIEN;
             count++;
-            if (count <= 0) throw new ArgumentException("lost id");
             GiaoVienID = count;
         }
         public int GiaoVienID { get; set; }

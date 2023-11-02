@@ -1,8 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<AccountUser> SignInManager
-@inject UserManager<HocSinh> UserManager1
-@inject UserManager<GiaoVien> UserManager2
+@inject UserManager<AccountUser> UserManager
 
 <ul class="navbar-nav flex-row">
     @if (SignInManager.IsSignedIn(User))
@@ -10,19 +9,16 @@
         <li class="nav-item">
             @{
                 string hovaten;
-                try
-                {
-                    var user = await UserManager1.GetUserAsync(User);
-                    hovaten = user.HoVaTen;
-
-                }
-                catch (Exception e)
-                {
-                    var user = await UserManager2.GetUserAsync(User);
-                    hovaten = user.HoVaTen;
-                }
+                var user = await UserManager.GetUserAsync(User);
+                int role = user.role;
+                if(role==AccountUser.HOCSINH)
+                    hovaten = ((HocSinh)user).HoVaTen;
+                else if(role==AccountUser.GIAOVIEN)
+                    hovaten = ((GiaoVien)user).HoVaTen;
+                else
+                    hovaten ="Admin";
             }
-            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @hovaten!</a>
+            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @hovaten! - @role</a>
         </li>
         <li class="nav-item ">
             <a class="nav-link text-white">&nbsp;-&nbsp;</a>

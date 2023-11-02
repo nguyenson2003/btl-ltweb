@@ -8,15 +8,15 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <form asp-controller="ChiTietGiangDay" asp-action="Create" method="post" class="mt-3">
         <div style="margin-top:7px" class="form-group row">
-            <label asp-for="GiaoVienID1" class="col-sm-2 col-form-label"></label>
+            <label asp-for="GiaoVienID" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
 
                 @*  <select asp-for="LopID" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select> *@
-                <input asp-for="GiaoVienID1" class="form-control form-control-lg" value="@ViewBag.GiaoVienID" text="@ViewBag.GiaoVienID" id="GVID" />
+                <input asp-for="GiaoVienID" class="form-control form-control-lg" value="@ViewBag.GiaoVienID" text="@ViewBag.GiaoVienID" id="GVID" />
 
 
             </div>
-            <span asp-validation-for="GiaoVienID1" class="text-danger"></span>
+            <span asp-validation-for="GiaoVienID" class="text-danger"></span>
         </div>
 
         <div style="margin-top:7px" class="form-group row">

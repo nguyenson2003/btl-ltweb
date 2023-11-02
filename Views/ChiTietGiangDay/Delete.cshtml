@@ -20,19 +20,19 @@
 
         <div class="list-group-item list-group-item-action">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.GiaoVienID1)
+                @Html.DisplayNameFor(model => model.GiaoVienID)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.GiaoVienID1)
+                @Html.DisplayFor(model => model.GiaoVienID)
             </dd>
         </div>
         
     </dl>
     <form asp-action="Delete">
         <div class="d-grid gap-2 d-md-block">
-            <input type="hidden" asp-for="@Model.GiaoVienID1" />
+            <input type="hidden" asp-for="@Model.GiaoVienID" />
             <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a class="btn btn-primary" asp-action="Index" asp-route-lopid="@Model.GiaoVienID1">Back to List</a>
+            <a class="btn btn-primary" asp-action="Index" asp-route-lopid="@Model.GiaoVienID">Back to List</a>
         </div>
     </form>
 </div>

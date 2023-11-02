@@ -5,9 +5,11 @@
 @model HocSinh
 <div class="ms-2 mx-2">
     <div asp-validation-summary="All" class="text-danger"></div> 
-    <form asp-controller="HocSinh" asp-action="Edit" asp-route-id="@Model.HocSinhID"
+    <form asp-controller="HocSinh" asp-action="Edit" asp-route-id="@Model.Id"
                                                                        method="post" class="mt-3">
-        <input type="hidden" asp-for="HocSinhID" /> <div style="margin-top:7px" class="form-group row">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="HocSinhID" />
+        <div style="margin-top:7px" class="form-group row">
             <label asp-for="Ho" class="col-sm-2 col-form-label"></label> 
             <div class="col-sm-10">
                 <input asp-for="Ho" class="form-control" placeholder="Ho">

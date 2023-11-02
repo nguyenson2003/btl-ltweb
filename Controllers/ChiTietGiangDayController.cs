@@ -14,9 +14,9 @@ namespace btl_tkweb.Controllers
         {
             this.db = db;
         }
-        public IActionResult Index(int GiaoVienID)
+        public IActionResult Index(string GiaoVienID)
         {
-            var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID1 == GiaoVienID).ToList();
+            var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
             var gv = gd.First().GiaoVien;
             ViewBag.GiaoVien = gv?.HoVaTen;
             return View(gd);
@@ -46,13 +46,13 @@ namespace btl_tkweb.Controllers
             return View();
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             if (id == null || db.ChiTietGiangDay == null)
             {
                 return NotFound();
             }
-            var gv = db.ChiTietGiangDay.Include(l => l.Lop).Include(e => e.GiaoVien).FirstOrDefault(m => m.GiaoVienID1 == id);
+            var gv = db.ChiTietGiangDay.Include(l => l.Lop).Include(e => e.GiaoVien).FirstOrDefault(m => m.GiaoVienID == id);
             if (gv == null)
             {
                 return NotFound();
@@ -61,24 +61,20 @@ namespace btl_tkweb.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(string id)
         {
             if (db.ChiTietGiangDay == null)
             {
                 return Problem("Khong con chi tiet de xoa");
             }
             var ct = db.ChiTietGiangDay.Find(id);
-            var GiaoVienID = ct.GiaoVienID1;
-
+            var GiaoVienID = ct.GiaoVienID;
             if (ct != null)
             {
-                
                 db.ChiTietGiangDay.Remove(ct);
-
             }
             else
             {
-
             }
             db.SaveChanges();
             return RedirectToAction("Index", new { GiaoVienID });

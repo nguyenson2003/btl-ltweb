@@ -8,7 +8,7 @@
         }
         public int ChiTietGiangDayId{ get; set; }
         public string LopHocId { get; set; }
-        public int GiaoVienID1 { get; set; }
+        public string GiaoVienID { get; set; }
         public Lop? Lop { get; set; }
         public GiaoVien? GiaoVien { get; set; }
     }

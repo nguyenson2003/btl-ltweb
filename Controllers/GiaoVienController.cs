@@ -26,7 +26,7 @@ namespace btl_tkweb.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _userStore = userStore;
-            HocSinh.count = db.HocSinh.Count();
+            GiaoVien.count = db.GiaoVien.Count();
         }
 
         public IActionResult Index(bool? alert)
@@ -106,7 +106,7 @@ namespace btl_tkweb.Controllers
             
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string id)
         {
             if (id == null || db.GiaoVien == null)
             {
@@ -122,25 +122,31 @@ namespace btl_tkweb.Controllers
         }
 
         [HttpPost]
-
-        public IActionResult Edit(int id, [Bind("GiaoVienID", "HoVaTen", "Nu", "NgaySinh", "MonHocID", "GhiChu")] GiaoVien gv)
+        public async Task<IActionResult> EditAsync(string id, [Bind("Id","GiaoVienID", "HoVaTen", "Nu", "NgaySinh", "MonHocID", "GhiChu")] GiaoVien gv)
         {
-            if (id != gv.GiaoVienID)
+            if (id != gv.Id)
             {
-                return Content(id + " "+ gv.GiaoVienID);
-
                 return NotFound();
             }
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Update(gv);
+                    var user = db.GiaoVien.First(u => u.Id == gv.Id);
+                    user.GiaoVienID = gv.GiaoVienID;
+                    user.HoVaTen=gv.HoVaTen;
+                    user.Nu=gv.Nu;
+                    user.NgaySinh = gv.NgaySinh;
+                    user.MonHocID=gv.MonHocID;
+                    user.GhiChu = gv.GhiChu;
+                    user.UserName = user.Username;
+                    db.GiaoVien.Update(user);
                     db.SaveChanges();
+                    await _userManager.UpdateAsync(user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Gvexist(gv.GiaoVienID))
+                    if (!Gvexist(gv.Id))
                     {
                         return NotFound();
                     }
@@ -154,33 +160,31 @@ namespace btl_tkweb.Controllers
             ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
             return View(gv);
         }
-        private bool Gvexist(int id)
+        private bool Gvexist(string id)
         {
-            return (db.GiaoVien?.Any(e => e.GiaoVienID == id)).GetValueOrDefault();
+            return (db.GiaoVien?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             if (id == null || db.GiaoVien == null)
             {
                 return NotFound();
             }
-            var gv = db.GiaoVien.Include(l => l.MonHoc).Include(e => e.ctgd).FirstOrDefault(m => m.GiaoVienID == id);
+            var gv = db.GiaoVien.Include(l => l.MonHoc).Include(e => e.ctgd).FirstOrDefault(m => m.Id == id);
             if (gv == null)
             {
                 return NotFound();
             }
             if (gv.ctgd.Count() > 0)
             {
-                
-                
                 return RedirectToAction("Index", new {alert = true});
             }
             return View(gv);
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(string id)
         {
             if (db.GiaoVien == null)
             {
