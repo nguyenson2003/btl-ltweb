@@ -14,6 +14,8 @@ namespace btl_tkweb.Data
                 {
                     return;
                 }
+
+                //create Lop table
                 var lop = new Lop[] { 
                     new Lop { LopID = "10A1", GVCN = "Nguyen Thi A" },
                     new Lop { LopID = "10A2", GVCN = "Nguyen Thi X" },
@@ -22,11 +24,16 @@ namespace btl_tkweb.Data
                 {
                     context.Lop.Add(x);
                 }
+
+                //create hoc sinh table
+                HocSinh.count = 0;
                 var hocsinh = new HocSinh[] { new HocSinh { Ho = "Nguyen Văn", Ten = "B", NgaySinh = DateTime.Parse("2003-01-01"), LopID = "10A1", Nu = false} };
                 foreach (var x in hocsinh)
                 {
                     context.HocSinh.Add(x);
                 }
+
+                //create mon hoc table
                 var monhoc = new MonHoc[] { 
                     new MonHoc { TenMon="Toán",  HeSoMon=2}, 
                     new MonHoc { TenMon="Văn",  HeSoMon=2}, 
@@ -37,11 +44,16 @@ namespace btl_tkweb.Data
                     context.MonHoc.Add(x);
                 }
                 context.SaveChanges();
+                
+                //create bang diem table
                 foreach (var x in hocsinh)
                 {
                     x.createBangDiem(context);
                 }
                 context.SaveChanges();
+
+                //create giao vien table
+                GiaoVien.count = 0;
                 var giaovien = new GiaoVien[]
                 {
                     new GiaoVien(){HoVaTen="Nguyễn Thị A", Nu=true,NgaySinh = DateTime.Parse("1990-01-01"),MonHocID=1},
@@ -54,6 +66,8 @@ namespace btl_tkweb.Data
                     context.GiaoVien.Add(x);
                 }
                 context.SaveChanges();
+
+                //create chi tiet giang day table
                 var ctgd = new ChiTietGiangDay[]
                 {
                     new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID1=1},

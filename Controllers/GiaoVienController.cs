@@ -26,6 +26,7 @@ namespace btl_tkweb.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _userStore = userStore;
+            HocSinh.count = db.HocSinh.Count();
         }
 
         public IActionResult Index(bool? alert)

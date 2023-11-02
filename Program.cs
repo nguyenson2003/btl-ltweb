@@ -10,6 +10,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<AccountUser>(options => options.SignIn.RequireConfirmedAccount = false )
     .AddEntityFrameworkStores<SchoolContext>();
 
+builder.Services.AddIdentityCore<AccountUser>()
+    .AddEntityFrameworkStores<SchoolContext>();
 builder.Services.AddIdentityCore<HocSinh>()
     .AddEntityFrameworkStores<SchoolContext>();
 builder.Services.AddIdentityCore<GiaoVien>()

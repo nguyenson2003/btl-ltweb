@@ -26,6 +26,7 @@ namespace btl_tkweb.Controllers
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
+            HocSinh.count = db.HocSinh.Count();
         }
         public IActionResult Index(string LopID)
         {

@@ -6,8 +6,13 @@ namespace btl_tkweb.Models
 {
     public class HocSinh : AccountUser
     {
+        public static int count=-1;
         public HocSinh() {
             DiemSo=new HashSet<DiemSo>();
+            role = HOCSINH;
+            count++;
+            if (count <= 0) throw new ArgumentException("lost id");
+            HocSinhID = count;
         }
         public int HocSinhID { get; set; }
         public string Ho { get; set; }
