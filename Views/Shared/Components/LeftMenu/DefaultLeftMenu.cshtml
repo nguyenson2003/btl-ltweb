@@ -7,11 +7,15 @@
         <span class="fs-4">Menu</span>
         </a>
         <hr> *@
-        @foreach(var i in Model)
-        {
-            <a class="nav-link" href="@i.Link">
-                @i.Name
-            </a>
-        }
+        <ul class="nav nav-pills flex-column mb-auto">
+            @foreach(var i in Model)
+            {
+                <li class="btn btn-dark">
+                    <a asp-controller="@i.controllerName" asp-action="@i.actionName" class="nav-link text-white" aria-current="page">
+                        @i.Name
+                    </a>
+                </li>
+            }
+        </ul>
     </div>
 </div>

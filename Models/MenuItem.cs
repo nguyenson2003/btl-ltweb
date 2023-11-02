@@ -4,6 +4,7 @@
     {
         public int ItemID { get; set; }
         public string? Name { get; set; }
-        public string? Link { get; set; }
+        public string? controllerName { get; set; }
+        public string? actionName { get; set; }
     }
 }

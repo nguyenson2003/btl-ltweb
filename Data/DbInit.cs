@@ -9,17 +9,20 @@ namespace btl_tkweb.Data
     {
         public static async void Init(IServiceProvider serviceProvider)
         {
-            UserManager<HocSinh> userManagerHs = serviceProvider.GetService<UserManager<HocSinh>>();
-            UserManager<GiaoVien> userManagerGv = serviceProvider.GetService<UserManager<GiaoVien>>();
+            UserManager<AccountUser> userManager = serviceProvider.GetService<UserManager<AccountUser>>();
             
             using (var context = new SchoolContext(serviceProvider.GetRequiredService<DbContextOptions<SchoolContext>>()))
             {
-
                 context.Database.EnsureCreated();
-                if (context.HocSinh.Any())
+                if (context.AccountUser.Any())
                 {
                     return;
                 }
+
+                //create admin account 
+                AccountUser adminAcc = new AccountUser() { UserName = "Admin" };
+                var adminResult = userManager.CreateAsync(adminAcc, "Utc@123").Result;
+                if (!adminResult.Succeeded) throw new ArgumentException(adminAcc.UserName);
 
                 //create Lop table
                 var lop = new Lop[] {
@@ -40,7 +43,7 @@ namespace btl_tkweb.Data
                     /*context.HocSinh.Add(x);
                     context.SaveChanges();*/
                     x.UserName = x.Username; 
-                    var result = userManagerHs.CreateAsync(x, "Utc@123").Result;
+                    var result = userManager.CreateAsync(x, "Utc@123").Result;
                     if (!result.Succeeded) throw new ArgumentException(x.UserName);
                 }
 
@@ -76,7 +79,7 @@ namespace btl_tkweb.Data
                 {
                     /*context.GiaoVien.Add(x);*/
                     x.UserName = x.Username;
-                    var result = userManagerGv.CreateAsync(x, "Utc@123").Result;
+                    var result = userManager.CreateAsync(x, "Utc@123").Result;
                     if (!result.Succeeded) throw new ArgumentException(x.UserName);
                 }
                 context.SaveChanges();

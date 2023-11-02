@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Thêm chi tiết giảng dạy";
+    ViewData["Title"] = "Thêm chi tiết giảng dạy cho " + ViewBag.GiaoVienName;
     Layout = "~/Views/Shared/MyLayout.cshtml";
 }
 
@@ -7,25 +7,19 @@
 <div class="ms-2 mx-2">
     <div asp-validation-summary="All" class="text-danger"></div>
     <form asp-controller="ChiTietGiangDay" asp-action="Create" method="post" class="mt-3">
-        <div style="margin-top:7px" class="form-group row">
+        <input type="hidden" asp-for="GiaoVienID" class="form-control form-control-lg" value="@ViewBag.GiaoVienID" text="@ViewBag.GiaoVienName" id="GVID" />
+        @* <div style="margin-top:7px" class="form-group row">
             <label asp-for="GiaoVienID" class="col-sm-2 col-form-label">Giáo viên</label>
             <div class="col-sm-10">
-
-                @*  <select asp-for="LopID" class="custom-select mr-sm-2" asp-items="@ViewBag.LopID"></select> *@
                 <input asp-for="GiaoVienID" class="form-control form-control-lg" value="@ViewBag.GiaoVienID" text="@ViewBag.GiaoVienName" id="GVID" />
-
-
             </div>
             <span asp-validation-for="GiaoVienID" class="text-danger"></span>
-        </div>
+        </div> *@
 
         <div style="margin-top:7px" class="form-group row">
             <label asp-for="LopHocId" class="col-sm-2 col-form-label">Lớp học</label>
             <div class="col-sm-10">
-
                   <select asp-for="LopHocId" class="custom-select mr-sm-2" asp-items="@ViewBag.Lop"></select> 
-
-
             </div>
             <span asp-validation-for="LopHocId" class="text-danger"></span>
         </div>

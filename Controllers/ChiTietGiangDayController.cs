@@ -17,7 +17,7 @@ namespace btl_tkweb.Controllers
         public IActionResult Index(string GiaoVienID)
         {
             var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
-            var gv = gd.First().GiaoVien;
+            var gv = db.GiaoVien.Find(GiaoVienID);
             ViewBag.GiaoVien = gv?.HoVaTen;
             ViewBag.GiaoVienID = GiaoVienID;
             return View(gd);
@@ -28,15 +28,15 @@ namespace btl_tkweb.Controllers
         {
             ViewBag.GiaoVienID = GiaoVienID;
             var gd = db.ChiTietGiangDay.Include(m => m.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
-            var gv = gd.First().GiaoVien;
+            var gv = db.GiaoVien.Find(GiaoVienID);
+            ViewBag.GiaoVienID = gv.Id;
             ViewBag.GiaoVienName = gv?.HoVaTen;
             ViewBag.Lop = new SelectList(db.Lop, "LopID", "LopID");
             return View();
-
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("GiaoVienID", "LopHocID")] ChiTietGiangDay ct, string GiaoVienID)
+        public IActionResult Create([Bind("GiaoVienID", "LopHocId")] ChiTietGiangDay ct, string GiaoVienID)
         {
             ViewBag.GiaoVienID = GiaoVienID;
             if (ModelState.IsValid)
@@ -50,22 +50,22 @@ namespace btl_tkweb.Controllers
             return View();
         }
 
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             if (id == null || db.ChiTietGiangDay == null)
             {
                 return NotFound();
             }
-            var gv = db.ChiTietGiangDay.Include(l => l.Lop).Include(e => e.GiaoVien).FirstOrDefault(m => m.GiaoVienID == id);
-            if (gv == null)
+            var ctgd = db.ChiTietGiangDay.Include(l => l.Lop).Include(e => e.GiaoVien).FirstOrDefault(m => m.ChiTietGiangDayId == id);
+            if (ctgd == null)
             {
                 return NotFound();
             }
-            return View(gv);
+            return View(ctgd);
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(int id)
         {
             if (db.ChiTietGiangDay == null)
             {

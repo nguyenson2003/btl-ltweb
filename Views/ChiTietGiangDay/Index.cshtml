@@ -22,7 +22,7 @@
                 <tr>
                     <td>@s.ChiTietGiangDayId</td>
                     <td>@s.LopHocId</td>
-                    <td><a asp-action="Delete" asp-route-id="@s.GiaoVien.Id">Xóa</a></td>
+                    <td><a asp-action="Delete" asp-route-id="@s.ChiTietGiangDayId">Xóa</a></td>
 
 
 
@@ -33,6 +33,6 @@
             }
         </tbody>
     </table>
-    <a asp-action="Create" asp-route-lopid=@ViewBag.GiaoVienID class="btn btn-primary">Thêm chi tiết</a>
+    <a asp-action="Create" asp-route-giaovienid=@ViewBag.GiaoVienID class="btn btn-primary">Thêm chi tiết</a>
    
 </div>
