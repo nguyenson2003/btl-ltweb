@@ -1,6 +1,14 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<AccountUser> SignInManager
+@inject UserManager<AccountUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 @model IEnumerable<ChiTietGiangDay>
 @{
     ViewData["Title"] = "Chi tiết giảng dạy " + ViewBag.GiaoVien;
@@ -22,7 +30,11 @@
                 <tr>
                     <td>@s.ChiTietGiangDayId</td>
                     <td>@s.LopId</td>
-                    <td><a asp-action="Delete" asp-route-id="@s.ChiTietGiangDayId">Xóa</a></td>
+                    @if (user.role == AccountUser.ADMIN)
+                    {
+                        <td><a asp-action="Delete" asp-route-id="@s.ChiTietGiangDayId">Xóa</a></td>
+                        
+                    }
 
 
 
@@ -33,6 +45,10 @@
             }
         </tbody>
     </table>
+    @if (user.role == AccountUser.ADMIN)
+    {
     <a asp-action="Create" asp-route-giaovienid=@ViewBag.GiaoVienID class="btn btn-primary">Thêm chi tiết</a>
+        
+    }
    
 </div>

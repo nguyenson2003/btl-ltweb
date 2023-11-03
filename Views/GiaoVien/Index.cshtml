@@ -4,7 +4,14 @@
 @{
     ViewData["Title"] = "Giáo Viên";
 }
+@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<AccountUser> SignInManager
+@inject UserManager<AccountUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 @model IEnumerable<GiaoVien>
 
 <div class="ms-2 mx-2">
@@ -21,8 +28,11 @@
     <div id="content">
         @{Html.RenderPartial("Table");}
     </div>
-    
-    <a asp-action="Create" class="btn btn-primary">Thêm giáo viên</a>
+    @if (user.role == AccountUser.ADMIN)
+    {
+     <a asp-action="Create" class="btn btn-primary">Thêm giáo viên</a>
+        
+    }
     
 </div>
 @section Scripts{

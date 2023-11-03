@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 
 namespace btl_tkweb.Controllers
 {
     public class HocSinhController : Controller
     {
+        int ItemInEachPage = 2;
         SchoolContext db; 
         private readonly SignInManager<AccountUser> _signInManager;
         private readonly UserManager<AccountUser> _userManager;
@@ -26,32 +28,63 @@ namespace btl_tkweb.Controllers
             HocSinh.count = db.HocSinh.Count();
         }
         private AccountUser getUser() { return _userManager.GetUserAsync(HttpContext.User).Result; }
-        public IActionResult Index(string LopID)
+        
+        public IActionResult Index(string? LopID, string? name, int page)
         {
             var user = getUser();
             if(user == null)return NotFound();
             if (user.role == AccountUser.HOCSINH && ((HocSinh)user).LopID != LopID) return NotFound();
             if(user.role == AccountUser.GIAOVIEN && db.ChiTietGiangDay.Where(ct=>ct.LopId==LopID&&ct.GiaoVienID==user.Id).Count()==0) return NotFound();
-            var hs = db.HocSinh
-                .Where(hs => hs.LopID.Equals(LopID))
-                .OrderBy(s => s.Ten).OrderBy(s => s.Ho)
-                .ToList();
+            
+;
+            if (!string.IsNullOrEmpty(name))
+            {
+                var hs2 = db.HocSinh.Where(l => l.Ho.Contains(name.Trim()) || l.Ten.Contains(name.Trim())).ToList();
+                var pt2 = hs2.Skip((page - 1) * ItemInEachPage).Take(ItemInEachPage).ToList();
+                ViewBag.LopID = LopID;
+                return View(pt2);
+            }
+            if (!string.IsNullOrEmpty(LopID))
+            {
+                var hs = db.HocSinh
+                    .Where(hs => hs.LopID.Equals(LopID))
+                    /*.OrderBy(s => s.Ten).OrderBy(s => s.Ho)*/
+                    .ToList();
+                var pt = hs.Skip((page - 1) * ItemInEachPage).Take(ItemInEachPage).ToList();
+                ViewBag.LopID = LopID;
+                return View(pt);
+            }
+
+            int cnt = db.HocSinh.Count();
+            
+            var hs1 = db.HocSinh.ToList();
+            var pt1 = hs1.Skip((3-1) * ItemInEachPage).Take(ItemInEachPage).ToList();
             ViewBag.LopID = LopID;
-            return View(hs);
+
+            ViewBag.maxPage = cnt % ItemInEachPage == 0 ? cnt / ItemInEachPage : cnt / ItemInEachPage + 1;
+            
+            return View(pt1);
+           
         }
 
-        public IActionResult Create(string LopID)
+        public PartialViewResult Test(int page)
+        {
+            var hs1 = db.HocSinh.ToList();
+            var pt1 = hs1.Skip((page - 1) * ItemInEachPage).Take(ItemInEachPage).ToList();
+            return PartialView("Table", pt1);
+        }
+        public IActionResult Create(string? LopID)
         {
             var user = getUser();
             if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
             
             ViewBag.LopID = LopID;
             return View();
-
+            
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs,string LopID)
+        public async Task<IActionResult> Create([Bind("Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs,string? LopID)
         {
             var user = getUser();
             if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
@@ -192,6 +225,8 @@ namespace btl_tkweb.Controllers
             db.SaveChanges();
             return RedirectToAction("Index" ,new {lopID});
         }
+
+       
         
     }
 }

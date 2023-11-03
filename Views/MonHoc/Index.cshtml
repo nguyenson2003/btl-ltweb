@@ -4,6 +4,14 @@
 @{
     ViewData["Title"] = "Danh sách môn học";
 }
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<AccountUser> SignInManager
+@inject UserManager<AccountUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 @model IEnumerable<MonHoc>
 <div class="ms-2 mx-2">
     <table class="table table-striped">
@@ -22,10 +30,17 @@
                     <td>@s.MonHocID</td>
                     <td>@s.TenMon</td>
                     <td>@s.HeSoMon</td>
-                    <td><a asp-action="Edit" asp-route-id="@s.MonHocID">Sửa</a> | <a asp-action="Delete" asp-route-id="@s.MonHocID">Xoá</a></td>
+                    @if (user.role == AccountUser.ADMIN)
+                    {
+                        <td><a asp-action="Edit" asp-route-id="@s.MonHocID">Sửa</a> | <a asp-action="Delete" asp-route-id="@s.MonHocID">Xoá</a></td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
-    <a asp-action="Create" class="btn btn-primary">Thêm môn học</a>
+    @if (user.role == AccountUser.ADMIN)
+    {
+        <a asp-action="Create" class="btn btn-primary">Thêm môn học</a>
+        
+    }
 </div>

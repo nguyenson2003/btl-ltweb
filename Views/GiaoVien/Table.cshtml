@@ -3,6 +3,14 @@
 *@
 @{
 }
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<AccountUser> SignInManager
+@inject UserManager<AccountUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 <table class="table table-striped">
     <thead>
         <tr>
@@ -19,8 +27,10 @@
     <tbody>
         @foreach (var s in Model)
         {
+            var stt = 0;
+            stt +=1;
             <tr>
-                <td>@s.GiaoVienID</td>
+                <td>@stt</td>
                 <td>@s.HoVaTen</td>
                 @{
                     var GioiTinh = "";
@@ -31,7 +41,15 @@
                 <td>@s.MonHoc.TenMon</td>
                 <td>@s.UserName</td>
                 <td>@s.GhiChu</td>
-                <td> <a asp-controller="ChiTietGiangDay" asp-action="Index" asp-route-giaovienid="@s.Id">Chi tiết giảng dạy</a> |  <a asp-action="Edit" asp-route-id="@s.Id">Sửa</a> | <a asp-action="Delete" asp-route-id="@s.Id">Xóa</a></td>
+                @if(user.role == AccountUser.GIAOVIEN)
+                {
+                    <td> <a asp-controller="ChiTietGiangDay" asp-action="Index" asp-route-giaovienid="@s.Id">Chi tiết giảng dạy</a></td>
+                }
+                @if (user.role == AccountUser.ADMIN)
+                {
+                    <td> <a asp-controller="ChiTietGiangDay" asp-action="Index" asp-route-giaovienid="@s.Id">Chi tiết giảng dạy</a> |  <a asp-action="Edit" asp-route-id="@s.Id">Sửa</a> | <a asp-action="Delete" asp-route-id="@s.Id">Xóa</a></td>
+                    
+                }
             </tr>
         }
     </tbody>
