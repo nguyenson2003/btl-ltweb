@@ -35,7 +35,7 @@ namespace btl_tkweb.Controllers
             ViewBag.Alert = alert;
 
             var gv = db.GiaoVien.Include(s => s.MonHoc).Include(g => g.ctgd).Where(g=>true);
-            if (user.role == AccountUser.HOCSINH) gv = gv.Where(g => g.ctgd.Any(c => c.LopHocId == ((HocSinh)user).LopID));
+            if (user.role == AccountUser.HOCSINH) gv = gv.Where(g => g.ctgd.Any(c => c.LopId == ((HocSinh)user).LopID));
 
             var lop = new List<Lop>();
             lop.Add(new Lop() { LopID = "" });
@@ -58,7 +58,7 @@ namespace btl_tkweb.Controllers
             if (LopID == null && MonHocID == null)
             {
                 var gv = db.GiaoVien.Include(s => s.MonHoc);
-                if (user.role == AccountUser.HOCSINH) return PartialView(gv.Include(g => g.ctgd).Where(g => g.ctgd.Any(c => c.LopHocId == ((HocSinh)user).LopID)));
+                if (user.role == AccountUser.HOCSINH) return PartialView(gv.Include(g => g.ctgd).Where(g => g.ctgd.Any(c => c.LopId == ((HocSinh)user).LopID)));
                 return PartialView(gv);
             }
             else if (LopID == null)
@@ -68,12 +68,12 @@ namespace btl_tkweb.Controllers
             }
             else if (MonHocID == null)
             {
-                var gv = db.GiaoVien.Include(s => s.MonHoc).Include(s => s.ctgd).Where(s => s.ctgd.Any(c => c.LopHocId == LopID)).ToList();
+                var gv = db.GiaoVien.Include(s => s.MonHoc).Include(s => s.ctgd).Where(s => s.ctgd.Any(c => c.LopId == LopID)).ToList();
                 return PartialView(gv);
             }
             else
             {
-                var gv = db.GiaoVien.Include(s => s.MonHoc).Include(s => s.ctgd).Where(s => s.ctgd.Any(c => c.LopHocId == LopID)).Where(s => s.MonHocID == MonHocID).ToList();
+                var gv = db.GiaoVien.Include(s => s.MonHoc).Include(s => s.ctgd).Where(s => s.ctgd.Any(c => c.LopId == LopID)).Where(s => s.MonHocID == MonHocID).ToList();
                 return PartialView(gv);
             }
         }

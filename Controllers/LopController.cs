@@ -29,7 +29,7 @@ namespace btl_tkweb.Controllers
             }
             if (user.role == AccountUser.GIAOVIEN)
             {
-                var lop = db.Lop.Include(s => s.dshs).Include(l=>l.ctgd).Where(l=>l.ctgd.Any(ct=>ct.GiaoVienID==((GiaoVien)user).Id)).ToList();
+                var lop = db.Lop.Include(l => l.ctgd).Include(s => s.dshs).Where(l=>l.ctgd.Any(ct=>ct.GiaoVienID==user.Id));
                 return View(lop);
             }
             if (user.role == AccountUser.HOCSINH)
@@ -106,9 +106,9 @@ namespace btl_tkweb.Controllers
                     db.SaveChanges();
                     foreach (var item in db.ChiTietGiangDay)
                     {
-                        if (item.LopHocId == oldid)
+                        if (item.LopId == oldid)
                         {
-                            item.LopHocId = lop.LopID;
+                            item.LopId = lop.LopID;
                             db.Update(item);
                         }
                     }

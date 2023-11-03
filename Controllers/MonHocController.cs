@@ -1,5 +1,6 @@
 ﻿using btl_tkweb.Data;
 using btl_tkweb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,25 +9,37 @@ namespace btl_tkweb.Controllers
 {
     public class MonHocController : Controller
     {
+        private readonly UserManager<AccountUser> _userManager;
         SchoolContext db;
-        public MonHocController(SchoolContext db)
+        public MonHocController(SchoolContext db, UserManager<AccountUser> userManager)
         {
             this.db = db;
+            _userManager = userManager;
         }
+        private AccountUser getUser() { return _userManager.GetUserAsync(HttpContext.User).Result; }
         public IActionResult Index()
         {
+            var user = getUser();
+            if (user == null) return NotFound();
+
             var monhoc = db.MonHoc.ToList();
             return View(monhoc);
         }
         [HttpGet]
         public IActionResult Create()
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("TenMon", "HeSoMon")] MonHoc mon)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             if (ModelState.IsValid)
             {
                 db.MonHoc.Add(mon);
@@ -44,6 +57,9 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Edit(int id)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             if (id == null || db.MonHoc == null) return NotFound();
             var mon = db.MonHoc.Find(id);
             if (mon == null) return NotFound();
@@ -53,6 +69,9 @@ namespace btl_tkweb.Controllers
         [HttpPost]
         public IActionResult Edit(int id, [Bind("MonHocID", "TenMon", "HeSoMon")] MonHoc mon)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             if (id != mon.MonHocID)
             {
                 return Content(id+" "+mon.MonHocID);
@@ -87,6 +106,9 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Delete(int id)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             if (id == null || db.MonHoc == null)
             {
                 return NotFound();
@@ -106,6 +128,9 @@ namespace btl_tkweb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             if (db.MonHoc == null)
             {
                 return Problem("Không còn môn học");

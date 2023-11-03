@@ -13,10 +13,10 @@ namespace btl_tkweb.Controllers
     {
         SchoolContext db; 
         private readonly SignInManager<AccountUser> _signInManager;
-        private readonly UserManager<HocSinh> _userManager;
+        private readonly UserManager<AccountUser> _userManager;
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         public HocSinhController(
-            UserManager<HocSinh> userManager,
+            UserManager<AccountUser> userManager,
             SignInManager<AccountUser> signInManager,
             SchoolContext db
         ) {
@@ -25,12 +25,16 @@ namespace btl_tkweb.Controllers
             _signInManager = signInManager;
             HocSinh.count = db.HocSinh.Count();
         }
+        private AccountUser getUser() { return _userManager.GetUserAsync(HttpContext.User).Result; }
         public IActionResult Index(string LopID)
         {
-            
+            var user = getUser();
+            if(user == null)return NotFound();
+            if (user.role == AccountUser.HOCSINH && ((HocSinh)user).LopID != LopID) return NotFound();
+            if(user.role == AccountUser.GIAOVIEN && db.ChiTietGiangDay.Where(ct=>ct.LopId==LopID&&ct.GiaoVienID==user.Id).Count()==0) return NotFound();
             var hs = db.HocSinh
                 .Where(hs => hs.LopID.Equals(LopID))
-                /*.OrderBy(s => s.Ten).OrderBy(s => s.Ho)*/
+                .OrderBy(s => s.Ten).OrderBy(s => s.Ho)
                 .ToList();
             ViewBag.LopID = LopID;
             return View(hs);
@@ -38,6 +42,9 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Create(string LopID)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+            
             ViewBag.LopID = LopID;
             return View();
 
@@ -46,6 +53,9 @@ namespace btl_tkweb.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs,string LopID)
         {
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
             ViewBag.LopID = LopID;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -69,7 +79,13 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Edit(string id)
         {
-            if(id == null || db.HocSinh == null)
+            var user = getUser();
+            if (!(
+                (user != null && user.role == AccountUser.ADMIN) ||
+                (user != null && user.role == AccountUser.HOCSINH && ((HocSinh)user).Id==id)
+            )) return NotFound();
+
+            if (id == null || db.HocSinh == null)
             {
                 return NotFound();
             }
@@ -86,7 +102,13 @@ namespace btl_tkweb.Controllers
         [HttpPost]
         public async Task<IActionResult> EditAsync(string id, [Bind("Id","HocSinhID", "Ho", "Ten", "Nu", "NgaySinh","LopID", "GhiChu")] HocSinh hs)
         {
-            if(id != hs.Id)
+            var user = getUser();
+            if (!(
+                (user != null && user.role == AccountUser.ADMIN) ||
+                (user != null && user.role == AccountUser.HOCSINH && ((HocSinh)user).Id == id)
+            )) return NotFound();
+
+            if (id != hs.Id)
             {
                 return NotFound();
             }
@@ -94,18 +116,18 @@ namespace btl_tkweb.Controllers
             {
                 try
                 {
-                    var user = db.HocSinh.First(u => u.Id == hs.Id);
-                    user.HocSinhID = hs.HocSinhID;
-                    user.Ho = hs.Ho;
-                    user.Ten = hs.Ten;
-                    user.Nu = hs.Nu;
-                    user.NgaySinh = hs.NgaySinh;
-                    user.LopID = hs.LopID;
-                    user.GhiChu = hs.GhiChu;
-                    db.HocSinh.Update(user);
+                    var userhs = db.HocSinh.First(u => u.Id == hs.Id);
+                    userhs.HocSinhID = hs.HocSinhID;
+                    userhs.Ho = hs.Ho;
+                    userhs.Ten = hs.Ten;
+                    userhs.Nu = hs.Nu;
+                    userhs.NgaySinh = hs.NgaySinh;
+                    userhs.LopID = hs.LopID;
+                    userhs.GhiChu = hs.GhiChu;
+                    db.HocSinh.Update(userhs);
                     db.SaveChanges();
-                    user.UserName = user.Username;
-                    await _userManager.UpdateAsync(user);
+                    userhs.UserName = userhs.Username;
+                    await _userManager.UpdateAsync(userhs);
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -132,7 +154,10 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Delete(string id)
         {
-            if(id == null || db.HocSinh == null)
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
+            if (id == null || db.HocSinh == null)
             {
                 return NotFound();
             }
@@ -148,7 +173,10 @@ namespace btl_tkweb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(string id)
         {
-            if(db.HocSinh == null)
+            var user = getUser();
+            if (!(user != null && user.role == AccountUser.ADMIN)) return NotFound();
+
+            if (db.HocSinh == null)
             {
                 return Problem("Khong con hoc sinh");
             }

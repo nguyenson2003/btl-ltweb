@@ -1,5 +1,6 @@
 ﻿using btl_tkweb.Data;
 using btl_tkweb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,28 +10,48 @@ namespace btl_tkweb.Controllers
 {
     public class DiemSoController : Controller
     {
+        private readonly UserManager<AccountUser> _userManager;
         SchoolContext db;
-        public DiemSoController(SchoolContext db)
+        public DiemSoController(SchoolContext db,UserManager<AccountUser> userManager)
         {
+            _userManager = userManager;
             this.db = db;
         }
+        private AccountUser getUser() { return _userManager.GetUserAsync(HttpContext.User).Result; }
         public IActionResult Index(string HocSinhID)
         {
-            try
+            var user = getUser();
+            if (user == null) return NotFound();
+
+            if (user.role == AccountUser.ADMIN)
             {
-            var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId.Equals(HocSinhID)).ToList();
+                var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId.Equals(HocSinhID)).ToList();
                 var hs = bd.First().HocSinh;
-
-
-
                 ViewBag.HocSinh = hs.Ho + hs.Ten;
-            return View(bd);
-
+                return View(bd);
             }
-            catch (Exception ex)
+            if (user.role == AccountUser.GIAOVIEN) { 
+                var bd = db.DiemSo
+                    .Include(m => m.MonHoc)
+                    .Include(l => l.HocSinh)
+                    .Where(s => s.HocSinhId.Equals(HocSinhID))
+                    .Where(bd=>bd.MonHocID==((GiaoVien)user).MonHocID).ToList();
+                var hs = bd.First().HocSinh;
+                
+                ViewBag.HocSinh = hs.Ho + hs.Ten;
+                return View(bd);
+            }
+            if (user.role == AccountUser.HOCSINH)
             {
-                return Content(" " +HocSinhID);
+                var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId.Equals(HocSinhID)).ToList();
+                var hs = bd.First().HocSinh;
+                if (hs.Id!=user.Id) return NotFound();
+                ViewBag.HocSinh = hs.Ho + hs.Ten;
+                return View(bd);
             }
+            return NotFound();
+
+
         }
 
         public IActionResult Edit(int id)
@@ -39,6 +60,10 @@ namespace btl_tkweb.Controllers
             {
                 return NotFound();
             }
+            var user = getUser();
+            if(user == null) { return NotFound(); }
+            if(user.role==AccountUser.HOCSINH) { return NotFound(); }
+
             var bd = db.DiemSo.Find(id);
             if(bd == null)
             {

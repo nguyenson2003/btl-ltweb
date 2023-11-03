@@ -87,11 +87,11 @@ namespace btl_tkweb.Data
                 //create chi tiet giang day table
                 var ctgd = new ChiTietGiangDay[]
                 {
-                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID=giaovien[0].Id},
-                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID=giaovien[1].Id},
-                    new ChiTietGiangDay(){LopHocId="10A1", GiaoVienID = giaovien[2].Id},
-                    new ChiTietGiangDay(){LopHocId="10A2", GiaoVienID = giaovien[0].Id},
-                    new ChiTietGiangDay(){LopHocId="10A2", GiaoVienID = giaovien[3].Id},
+                    new ChiTietGiangDay(){LopId="10A1", GiaoVienID=giaovien[0].Id},
+                    new ChiTietGiangDay(){LopId="10A1", GiaoVienID=giaovien[1].Id},
+                    new ChiTietGiangDay(){LopId="10A1", GiaoVienID = giaovien[2].Id},
+                    new ChiTietGiangDay(){LopId="10A2", GiaoVienID = giaovien[0].Id},
+                    new ChiTietGiangDay(){LopId="10A2", GiaoVienID = giaovien[3].Id},
                 };
                 foreach (var x in ctgd)
                 {
