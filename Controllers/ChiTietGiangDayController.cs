@@ -21,7 +21,7 @@ namespace btl_tkweb.Controllers
         public IActionResult Index(string GiaoVienID)
         {
             var user = getUser();
-            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
+            if (user == null || user.role != AccountUser.ADMIN) return NotFound();
 
             var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
             var gv = db.GiaoVien.Find(GiaoVienID);
@@ -34,7 +34,7 @@ namespace btl_tkweb.Controllers
         public IActionResult Create(string GiaoVienID)
         {
             var user = getUser();
-            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
+            if (user == null || user.role != AccountUser.ADMIN) return NotFound();
             ViewBag.GiaoVienID = GiaoVienID;
             var gd = db.ChiTietGiangDay.Include(m => m.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
             var gv = db.GiaoVien.Find(GiaoVienID);
@@ -45,10 +45,10 @@ namespace btl_tkweb.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("GiaoVienID", "LopHocId")] ChiTietGiangDay ct, string GiaoVienID)
+        public IActionResult Create([Bind("GiaoVienID", "LopId")] ChiTietGiangDay ct, string GiaoVienID)
         {
             var user = getUser();
-            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
+            if (user == null || user.role != AccountUser.ADMIN) return NotFound();
             ViewBag.GiaoVienID = GiaoVienID;
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace btl_tkweb.Controllers
         public IActionResult Delete(int id)
         {
             var user = getUser();
-            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
+            if (user == null || user.role != AccountUser.ADMIN) return NotFound();
             if (id == null || db.ChiTietGiangDay == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace btl_tkweb.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             var user = getUser();
-            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
+            if (user == null || user.role != AccountUser.ADMIN) return NotFound();
             if (db.ChiTietGiangDay == null)
             {
                 return Problem("Khong con chi tiet de xoa");
