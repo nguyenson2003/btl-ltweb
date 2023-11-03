@@ -26,9 +26,7 @@ namespace btl_tkweb.ViewComponents
             {
                 MenuItems.Add(new MenuItem() { Name = "Danh sách lớp" ,controllerName="Lop",actionName="Index"});
                 MenuItems.Add(new MenuItem() { Name = "Môn học" ,controllerName="MonHoc",actionName="Index"});
-                
-                if(user.role==AccountUser.GIAOVIEN || user.role==AccountUser.ADMIN)
-                    MenuItems.Add(new MenuItem() { Name = "Danh sách giáo viên" ,controllerName="GiaoVien",actionName="Index"});
+                MenuItems.Add(new MenuItem() { Name = "Danh sách giáo viên" ,controllerName="GiaoVien",actionName="Index"});
 
             }
 

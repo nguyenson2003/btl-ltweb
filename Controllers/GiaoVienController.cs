@@ -12,12 +12,10 @@ namespace btl_tkweb.Controllers
     {
         SchoolContext db;
         private readonly SignInManager<AccountUser> _signInManager;
-        private readonly UserManager<GiaoVien> _userManager;
-        private readonly IUserStore<GiaoVien> _userStore; 
+        private readonly UserManager<AccountUser> _userManager;
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
         public GiaoVienController(
-            UserManager<GiaoVien> userManager,
-            IUserStore<GiaoVien> userStore,
+            UserManager<AccountUser> userManager,
             SignInManager<AccountUser> signInManager,
             SchoolContext db
         )
@@ -25,18 +23,23 @@ namespace btl_tkweb.Controllers
             this.db = db;
             _signInManager = signInManager;
             _userManager = userManager;
-            _userStore = userStore;
             GiaoVien.count = db.GiaoVien.Count();
         }
-
+        private AccountUser getUser() { return _userManager.GetUserAsync(HttpContext.User).Result; }
         public IActionResult Index(bool? alert)
         {
-           if(alert == null) alert = false;
+            var user = getUser();
+            if (user == null)return NotFound();
+
+            if (alert == null) alert = false;
             ViewBag.Alert = alert;
-            var gv = db.GiaoVien.Include(s => s.MonHoc).ToList();
+
+            var gv = db.GiaoVien.Include(s => s.MonHoc).Include(g => g.ctgd).Where(g=>true);
+            if (user.role == AccountUser.HOCSINH) gv = gv.Where(g => g.ctgd.Any(c => c.LopHocId == ((HocSinh)user).LopID));
+
             var lop = new List<Lop>();
             lop.Add(new Lop() { LopID = "" });
-            lop.AddRange(db.Lop);
+            if(user.role!=AccountUser.HOCSINH)lop.AddRange(db.Lop);
             ViewBag.lopId = new SelectList(lop, "LopID","LopID","");
 
             var mon= new List<MonHoc>();
@@ -48,11 +51,14 @@ namespace btl_tkweb.Controllers
         }
         public PartialViewResult Table(string LopID, int? MonHocID)
         {
+            var user = getUser();
+
             if (LopID == "--") LopID = null;
             if(MonHocID==0)MonHocID=null;
             if (LopID == null && MonHocID == null)
             {
-                var gv = db.GiaoVien.Include(s => s.MonHoc).ToList();
+                var gv = db.GiaoVien.Include(s => s.MonHoc);
+                if (user.role == AccountUser.HOCSINH) return PartialView(gv.Include(g => g.ctgd).Where(g => g.ctgd.Any(c => c.LopHocId == ((HocSinh)user).LopID)));
                 return PartialView(gv);
             }
             else if (LopID == null)
@@ -75,8 +81,13 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", "");
-            return View();
+            var user = getUser();
+            if (user != null && user.role == AccountUser.ADMIN)
+            {
+                ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", "");
+                return View();
+            }
+            return NotFound();
 
         }
 
@@ -84,82 +95,96 @@ namespace btl_tkweb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("HoVaTen", "Nu","NgaySinh", "MonHocID","GhiChu")] GiaoVien gv)
         {
-        
-            if(ModelState.IsValid)
+            var user = getUser();
+            if (user != null && user.role == AccountUser.ADMIN)
             {
 
-                await _userStore.SetUserNameAsync(gv, gv.Username, CancellationToken.None);
-                var result = await _userManager.CreateAsync(gv, "Utc@123");
-
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    var userId = await _userManager.GetUserIdAsync(gv);
-                    return RedirectToAction("Index");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                    gv.UserName = gv.Username;
+                    var result = await _userManager.CreateAsync(gv, "Utc@123");
 
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                }
+                return View();
             }
-            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", "");
-            return View();
+            return NotFound();
             
         }
 
         public IActionResult Edit(string id)
         {
-            if (id == null || db.GiaoVien == null)
+
+            var user = getUser();
+            if (user != null && ((user.role == AccountUser.ADMIN)||(user.role==AccountUser.GIAOVIEN && user.Id==id)))
             {
-                return NotFound();
+                if (id == null || db.GiaoVien == null)
+                {
+                    return NotFound();
+                }
+                var gv = db.GiaoVien.Find(id);
+                if (gv == null)
+                {
+                    return NotFound();
+                }
+                ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
+                return View(gv);
             }
-            var gv = db.GiaoVien.Find(id);
-            if (gv == null)
-            {
-                return NotFound();
-            }
-            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
-            return View(gv);
+            return NotFound();
         }
 
         [HttpPost]
         public async Task<IActionResult> EditAsync(string id, [Bind("Id","GiaoVienID", "HoVaTen", "Nu", "NgaySinh", "MonHocID", "GhiChu")] GiaoVien gv)
         {
-            if (id != gv.Id)
+
+            var user = getUser();
+            if (user != null && ((user.role == AccountUser.ADMIN) || (user.role == AccountUser.GIAOVIEN && user.Id == id)))
             {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                try
+                if (id != gv.Id)
                 {
-                    var user = db.GiaoVien.First(u => u.Id == gv.Id);
-                    user.GiaoVienID = gv.GiaoVienID;
-                    user.HoVaTen=gv.HoVaTen;
-                    user.Nu=gv.Nu;
-                    user.NgaySinh = gv.NgaySinh;
-                    user.MonHocID=gv.MonHocID;
-                    user.GhiChu = gv.GhiChu;
-                    user.UserName = user.Username;
-                    db.GiaoVien.Update(user);
-                    db.SaveChanges();
-                    await _userManager.UpdateAsync(user);
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                if (ModelState.IsValid)
                 {
-                    if (!Gvexist(gv.Id))
+                    try
                     {
-                        return NotFound();
+                        var dbuser = db.GiaoVien.First(u => u.Id == gv.Id);
+                        dbuser.GiaoVienID = gv.GiaoVienID;
+                        dbuser.HoVaTen = gv.HoVaTen;
+                        dbuser.Nu = gv.Nu;
+                        dbuser.NgaySinh = gv.NgaySinh;
+                        dbuser.MonHocID = gv.MonHocID;
+                        dbuser.GhiChu = gv.GhiChu;
+                        dbuser.UserName = dbuser.Username;
+                        db.GiaoVien.Update(dbuser);
+                        db.SaveChanges();
+                        await _userManager.UpdateAsync(dbuser);
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!Gvexist(gv.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
+                return View(gv);
             }
-            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", gv.MonHocID);
-            return View(gv);
+            return NotFound();
         }
         private bool Gvexist(string id)
         {
@@ -168,38 +193,50 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Delete(string id)
         {
-            if (id == null || db.GiaoVien == null)
+
+            var user = getUser();
+            if (user != null && user.role == AccountUser.ADMIN)
             {
-                return NotFound();
+                if (id == null || db.GiaoVien == null)
+                {
+                    return NotFound();
+                }
+                var gv = db.GiaoVien.Include(l => l.MonHoc).Include(e => e.ctgd).FirstOrDefault(m => m.Id == id);
+                if (gv == null)
+                {
+                    return NotFound();
+                }
+                if (gv.ctgd.Count() > 0)
+                {
+                    return RedirectToAction("Index", new { alert = true });
+                }
+                return View(gv);
             }
-            var gv = db.GiaoVien.Include(l => l.MonHoc).Include(e => e.ctgd).FirstOrDefault(m => m.Id == id);
-            if (gv == null)
-            {
-                return NotFound();
-            }
-            if (gv.ctgd.Count() > 0)
-            {
-                return RedirectToAction("Index", new {alert = true});
-            }
-            return View(gv);
+            return NotFound();
         }
 
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(string id)
         {
-            if (db.GiaoVien == null)
-            {
-                return Problem("Khong con giao vien");
-            }
-            var gv = db.GiaoVien.Find(id);
-            
 
-            if (gv != null)
+            var user = getUser();
+            if (user != null && user.role == AccountUser.ADMIN)
             {
-                db.GiaoVien.Remove(gv);
+                if (db.GiaoVien == null)
+                {
+                    return Problem("Khong con giao vien");
+                }
+                var gv = db.GiaoVien.Find(id);
+
+
+                if (gv != null)
+                {
+                    db.GiaoVien.Remove(gv);
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return NotFound();
         }
 
     }
