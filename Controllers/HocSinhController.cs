@@ -31,6 +31,7 @@ namespace btl_tkweb.Controllers
         
         public IActionResult Index(string? LopID, string? name, int page)
         {
+            int cnt = db.HocSinh.Count();
             var user = getUser();
             if(user == null)return NotFound();
             if (user.role == AccountUser.HOCSINH && ((HocSinh)user).LopID != LopID) return NotFound();
@@ -42,6 +43,7 @@ namespace btl_tkweb.Controllers
                 var hs2 = db.HocSinh.Where(l => l.Ho.Contains(name.Trim()) || l.Ten.Contains(name.Trim())).ToList();
                 var pt2 = hs2.Skip((page - 1) * ItemInEachPage).Take(ItemInEachPage).ToList();
                 ViewBag.LopID = LopID;
+                ViewBag.maxPage = cnt % ItemInEachPage == 0 ? cnt / ItemInEachPage : cnt / ItemInEachPage + 1;
                 return View(pt2);
             }
             if (!string.IsNullOrEmpty(LopID))
@@ -52,13 +54,14 @@ namespace btl_tkweb.Controllers
                     .ToList();
                 var pt = hs.Skip((page - 1) * ItemInEachPage).Take(ItemInEachPage).ToList();
                 ViewBag.LopID = LopID;
+                ViewBag.maxPage = cnt % ItemInEachPage == 0 ? cnt / ItemInEachPage : cnt / ItemInEachPage + 1;
                 return View(pt);
             }
 
-            int cnt = db.HocSinh.Count();
+            
             
             var hs1 = db.HocSinh.ToList();
-            var pt1 = hs1.Skip((3-1) * ItemInEachPage).Take(ItemInEachPage).ToList();
+            var pt1 = hs1.Skip((page-1) * ItemInEachPage).Take(ItemInEachPage).ToList();
             ViewBag.LopID = LopID;
 
             ViewBag.maxPage = cnt % ItemInEachPage == 0 ? cnt / ItemInEachPage : cnt / ItemInEachPage + 1;
