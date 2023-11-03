@@ -5,7 +5,7 @@
         public DiemSo() { }
         public int DiemSoID { get; set; }
         public int MonHocID { get; set; }
-        public int HocSinhId1 { get; set; }
+        public string HocSinhId { get; set; }
         public MonHoc? MonHoc { get; set; }
         public HocSinh? HocSinh { get; set;}
         public float? DiemHeSo1_1 { get; set; }

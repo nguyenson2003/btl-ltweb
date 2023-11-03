@@ -14,13 +14,16 @@ namespace btl_tkweb.Controllers
         {
             this.db = db;
         }
-        public IActionResult Index(int HocSinhID)
+        public IActionResult Index(string HocSinhID)
         {
             try
             {
-            var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId1.Equals(HocSinhID)).ToList();
-            var hs = bd.First().HocSinh;
-            ViewBag.HocSinh = hs.Ho + hs.Ten;
+            var bd = db.DiemSo.Include(m => m.MonHoc).Include(l => l.HocSinh).Where(s => s.HocSinhId.Equals(HocSinhID)).ToList();
+                var hs = bd.First().HocSinh;
+
+
+
+                ViewBag.HocSinh = hs.Ho + hs.Ten;
             return View(bd);
 
             }
@@ -67,11 +70,11 @@ namespace btl_tkweb.Controllers
                     }
                     else
                     {
-                        return Content("" + ds.HocSinhId1);
+                        return Content("" + ds.HocSinhId);
                         throw;
                     }
                 }
-                return RedirectToAction("Index", new {ds.HocSinhId1});
+                return RedirectToAction("Index", new {ds.HocSinhId});
             }
             
             return View(ds);

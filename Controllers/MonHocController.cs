@@ -33,7 +33,7 @@ namespace btl_tkweb.Controllers
                 db.SaveChanges();
                 foreach(var item in db.HocSinh)
                 {
-                    db.DiemSo.Add(new DiemSo() { HocSinhId1 = item.HocSinhID, MonHocID = mon.MonHocID});
+                    db.DiemSo.Add(new DiemSo() { HocSinhId = item.Id, MonHocID = mon.MonHocID});
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");

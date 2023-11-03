@@ -41,7 +41,7 @@ namespace btl_tkweb.Models
         {
             foreach (var mon in db.MonHoc)
             {
-                DiemSo d = new DiemSo() { MonHocID = mon.MonHocID, HocSinhId1 = this.HocSinhID };
+                DiemSo d = new DiemSo() { MonHocID = mon.MonHocID, HocSinhId = this.Id };
                 db.Add(d);
             }
             db.SaveChanges();
@@ -50,7 +50,7 @@ namespace btl_tkweb.Models
         {
             foreach (var d in db.DiemSo)
             {
-                if(d.HocSinhId1==this.HocSinhID) { 
+                if(d.HocSinhId ==this.Id) { 
                     db.Remove(d);
                 }
             }

@@ -27,6 +27,7 @@ namespace btl_tkweb.Controllers
         }
         public IActionResult Index(string LopID)
         {
+            
             var hs = db.HocSinh
                 .Where(hs => hs.LopID.Equals(LopID))
                 /*.OrderBy(s => s.Ten).OrderBy(s => s.Ho)*/
@@ -140,6 +141,7 @@ namespace btl_tkweb.Controllers
             {
                 return NotFound();
             }
+           
             return View(hs);
         }
 
