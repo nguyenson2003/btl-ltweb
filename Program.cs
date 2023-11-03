@@ -54,6 +54,11 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/Identity/Account/Register", context => Task.Factory.StartNew(() => context.Response.Redirect("/Identity/Account/Login", true, true)));
     endpoints.MapPost("/Identity/Account/Register", context => Task.Factory.StartNew(() => context.Response.Redirect("/Identity/Account/Login", true, true)));
+}); 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("Identity/Account/Manage/DeletePersonalData", context => Task.Factory.StartNew(() => context.Response.Redirect("/Identity/Account/Manage", true, true)));
+    endpoints.MapPost("Identity/Account/Manage/DeletePersonalData", context => Task.Factory.StartNew(() => context.Response.Redirect("Identity/Account/Manage", true, true)));
 });
 app.MapRazorPages();
 app.Run();
