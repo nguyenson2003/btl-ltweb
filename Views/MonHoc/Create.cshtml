@@ -12,8 +12,9 @@
             <label asp-for="TenMon" class="col-sm-3 col-form-label">Tên môn</label>
             <div class="col-sm-9">
                 <div class="form-floating">
-                    <input asp-for="TenMon" class="form-control" placeholder="Tên môn" id="1"/>
+                    <input asp-for="TenMon" class="form-control" placeholder="Tên môn" id="1" required pattern="[A-za-z]+"/>
                     <label for="1">Tên môn</label>
+                    <div class="invalid-feedback">Không hợp lệ!</div>
                 </div>
             </div>
             <span asp-validation-for="TenMon" class="text-danger"></span>
@@ -22,8 +23,10 @@
             <label asp-for="HeSoMon" class="col-sm-3 col-form-label">Hệ số môn</label>
             <div class="col-sm-9">
                 <div class="form-floating">
-                    <input type="number" asp-for="HeSoMon" class="form-control" placeholder="Hệ số môn" id="2"/>
+                    <input type="number" asp-for="HeSoMon" class="form-control" placeholder="Hệ số môn" id="2" required pattern="[0-9]+" />
                     <label for="2">Hệ số môn</label>
+                    <div class="invalid-feedback">Không hợp lệ!</div>
+
                 </div>
             </div>
             <span asp-validation-for="HeSoMon" class="text-danger"></span>
@@ -35,3 +38,12 @@
         </div>
     </form>
 </div>
+<script>
+    const form = document.querySelector("form");
+    form.addEventListener('submit', e => {
+        if (!form.checkValidity()) {
+            e.preventDefault()
+        }
+        form.classList.add('was-validated')
+    })
+</script>

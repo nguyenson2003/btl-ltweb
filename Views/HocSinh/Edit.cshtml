@@ -6,15 +6,17 @@
 <div class="ms-2 mx-2">
     <div asp-validation-summary="All" class="text-danger"></div> 
     <form asp-controller="HocSinh" asp-action="Edit" asp-route-id="@Model.Id"
-                                                                       method="post" class="mt-3">
+                                                                       method="post" class="mt-3" novalidate>
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="HocSinhID" />
         <div style="margin-top:7px" class="form-group row">
             <label asp-for="Ho" class="col-sm-2 col-form-label">Họ</label> 
             <div class="col-sm-10">
                 <div class="form-floating">
-                    <input asp-for="Ho" class="form-control" placeholder="Ho" id="Ho">
+                    <input asp-for="Ho" class="form-control" placeholder="Ho" id="Ho" required pattern="[a-zA-Z]{4,20}">
                     <label for="Ho">Họ</label>
+                    <div class="invalid-feedback">Không hợp lệ!</div>
+
                 </div>
             </div>
             <span asp-validation-for="Ho" class="text-danger"></span>
@@ -23,8 +25,10 @@
             <label asp-for="Ten" class="col-sm-2 col-form-label">Tên</label> 
             <div class="col-sm-10">
                 <div class="form-floating">
-                    <input asp-for="Ten" class="form-control" placeholder="Ten" id="Ten">
+                    <input asp-for="Ten" class="form-control" placeholder="Ten" id="Ten" required pattern="[a-zA-Z]{4,20}">
                      <label for="Ten">Tên</label>
+                    <div class="invalid-feedback">Không hợp lệ!</div>
+
                 </div>
             </div>
             <span asp-validation-for="Ten" class="text-danger"></span>
@@ -38,9 +42,12 @@
         <span asp-validation-for="LopID" class="text-danger"></span>
         <div style="margin-top:7px" class="form-group row">
             <label asp-for="NgaySinh" class="col-sm-2 col-form-label">Ngày sinh</label> <div class=" col-sm-10">
-                <input asp-for="NgaySinh" class="form-control" />
+                <input asp-for="NgaySinh" class="form-control" required/>
+                <div class="invalid-feedback">Ngày sinh không được bỏ trống!</div>
+
             </div>
             <span asp-validation-for="NgaySinh" class="text-danger"></span>
+
         </div>
         <div style="margin-top:7px" class="form-group row">
             <label asp-for="Nu" class="col-sm-2 col-form-label">Nữ</label>
@@ -60,8 +67,10 @@
             <label asp-for="GhiChu" class="col-sm-2 col-form-label">Ghi chú</label> 
             <div class="col-sm-10">
                 <div class="form-floating">
-                    <input asp-for="GhiChu" class="form-control" placeholder="GhiChu" id="GhiChu">
+                    <input asp-for="GhiChu" class="form-control" placeholder="GhiChu" id="GhiChu" required pattern="[a-zA-Z0-9.,]+">
                     <label for="GhiChu">Ghi chú</label>
+                    <div class="invalid-feedback">Ghi chú không đúng</div>
+
                 </div>
             </div>
             <span asp-validation-for="GhiChu" class="text-danger"></span>

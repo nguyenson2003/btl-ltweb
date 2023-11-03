@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace btl_tkweb.Models
 {
@@ -12,8 +13,12 @@ namespace btl_tkweb.Models
             count++;
             GiaoVienID = count;
         }
+        
         public int GiaoVienID { get; set; }
+
+        
         public string HoVaTen { get; set; }
+
         public bool Nu { get; set; }
         public DateTime NgaySinh { get; set; }
         public int MonHocID { get; set; }

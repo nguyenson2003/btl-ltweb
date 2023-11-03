@@ -102,6 +102,7 @@ namespace btl_tkweb.Controllers
                 }
 
             }
+            ViewBag.MonHocID = new SelectList(db.MonHoc, "MonHocID", "TenMon", "");
             return View();
             
         }
