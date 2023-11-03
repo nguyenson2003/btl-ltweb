@@ -1,5 +1,6 @@
 ﻿using btl_tkweb.Data;
 using btl_tkweb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +10,19 @@ namespace btl_tkweb.Controllers
     public class ChiTietGiangDayController : Controller
     {
         SchoolContext db;
+        private readonly UserManager<AccountUser> _userManager;
 
-        public ChiTietGiangDayController(SchoolContext db)
+        public ChiTietGiangDayController(SchoolContext db, UserManager<AccountUser> _userManager)
         {
+            this._userManager = _userManager;
             this.db = db;
         }
+        private AccountUser getUser() { return _userManager.GetUserAsync(HttpContext.User).Result; }
         public IActionResult Index(string GiaoVienID)
         {
+            var user = getUser();
+            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
+
             var gd = db.ChiTietGiangDay.Include(m => m.Lop).Include(n => n.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
             var gv = db.GiaoVien.Find(GiaoVienID);
             ViewBag.GiaoVien = gv?.HoVaTen;
@@ -26,6 +33,8 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Create(string GiaoVienID)
         {
+            var user = getUser();
+            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
             ViewBag.GiaoVienID = GiaoVienID;
             var gd = db.ChiTietGiangDay.Include(m => m.GiaoVien).Where(l => l.GiaoVienID == GiaoVienID).ToList();
             var gv = db.GiaoVien.Find(GiaoVienID);
@@ -38,6 +47,8 @@ namespace btl_tkweb.Controllers
         [HttpPost]
         public IActionResult Create([Bind("GiaoVienID", "LopHocId")] ChiTietGiangDay ct, string GiaoVienID)
         {
+            var user = getUser();
+            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
             ViewBag.GiaoVienID = GiaoVienID;
             if (ModelState.IsValid)
             {
@@ -52,6 +63,8 @@ namespace btl_tkweb.Controllers
 
         public IActionResult Delete(int id)
         {
+            var user = getUser();
+            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
             if (id == null || db.ChiTietGiangDay == null)
             {
                 return NotFound();
@@ -67,6 +80,8 @@ namespace btl_tkweb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
+            var user = getUser();
+            if (user == null || user.role == AccountUser.ADMIN) return NotFound();
             if (db.ChiTietGiangDay == null)
             {
                 return Problem("Khong con chi tiet de xoa");

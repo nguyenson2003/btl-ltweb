@@ -63,8 +63,10 @@ namespace btl_tkweb.Controllers
             var user = getUser();
             if(user == null) { return NotFound(); }
             if(user.role==AccountUser.HOCSINH) { return NotFound(); }
-
             var bd = db.DiemSo.Find(id);
+            if(user.role==AccountUser.GIAOVIEN && 
+                !(bd.MonHocID==((GiaoVien)user).MonHocID && db.ChiTietGiangDay.Where(c=>c.GiaoVienID==user.Id).Where(c=>c.LopId == db.HocSinh.Where(hs=>hs.Id==bd.HocSinhId).First().LopID).Count()!=0)
+            ) return NotFound();
             if(bd == null)
             {
                 return NotFound();
@@ -80,11 +82,25 @@ namespace btl_tkweb.Controllers
             {
                 return NotFound();
             }
+            var user = getUser();
+            if (user == null) { return NotFound(); }
+            if (user.role == AccountUser.HOCSINH) { return NotFound(); }
+            var bd = db.DiemSo.Find(id);
+            if (user.role == AccountUser.GIAOVIEN &&
+                !(bd.MonHocID == ((GiaoVien)user).MonHocID && db.ChiTietGiangDay.Where(c => c.GiaoVienID == user.Id).Where(c => c.LopId == db.HocSinh.Where(hs => hs.Id == bd.HocSinhId).First().LopID).Count() != 0)
+            ) return NotFound();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Update(ds);
+                    var userbd = db.DiemSo.Find(id);
+                    userbd.DiemHeSo1_1 = ds.DiemHeSo1_1;
+                    userbd.DiemHeSo1_2 = ds.DiemHeSo1_2;
+                    userbd.DiemHeSo1_3 = ds.DiemHeSo1_3;
+                    userbd.DiemHeSo2_1 = ds.DiemHeSo2_1;
+                    userbd.DiemHeSo2_2 = ds.DiemHeSo2_2;
+                    userbd.DiemHeSo3 = ds.DiemHeSo3;
+                    db.DiemSo.Update(userbd);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -95,7 +111,6 @@ namespace btl_tkweb.Controllers
                     }
                     else
                     {
-                        return Content("" + ds.HocSinhId);
                         throw;
                     }
                 }
